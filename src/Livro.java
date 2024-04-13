@@ -1,11 +1,12 @@
-public class Livro {
+public class Livro extends Texto {
     // atributos subclasse
     private String nomeEditora;
     private String edicao;
     private String genero;
 
     // construtor
-    public Livro(String nomeEditora, String edicao, String genero) {
+    public Livro(String nomeTexto, String nomeAutor, String dataPublicacao, String inicioLeitura, String terminoLeitura, int numPaginas, boolean foiLido, boolean foiIniciado, String nomeEditora, String edicao, String genero) {
+        super(nomeTexto, nomeAutor, dataPublicacao, inicioLeitura, terminoLeitura, numPaginas, foiLido, foiIniciado);
         this.nomeEditora = nomeEditora;
         this.edicao = edicao;
         this.genero = genero;
