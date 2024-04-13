@@ -1,12 +1,13 @@
 import java.util.ArrayList;
 
-public class Artigo {
+public class Artigo extends Texto {
     // atributos subclasse
     private String nomeRevista;
     private ArrayList <String> palavrasChave;
 
     // construtor
-    public Artigo(String nomeRevista, ArrayList<String> palavrasChave) {
+    public Artigo(String nomeTexto, String nomeAutor, String dataPublicacao, String inicioLeitura, String terminoLeitura, int numPaginas, boolean foiLido, boolean foiIniciado, String nomeRevista, ArrayList<String> palavrasChave) {
+        super(nomeTexto, nomeAutor, dataPublicacao, inicioLeitura, terminoLeitura, numPaginas, foiLido, foiIniciado);
         this.nomeRevista = nomeRevista;
         this.palavrasChave = palavrasChave;
     }
