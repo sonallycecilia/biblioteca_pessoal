@@ -50,8 +50,8 @@ public class Estante {
         return this.nome;
     }
 
-    public void setNome(String noome){
-        this.nome = noome;
+    public void setNome(String nome){
+        this.nome = nome;
     }
 }
 
