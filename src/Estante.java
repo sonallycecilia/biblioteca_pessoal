@@ -9,7 +9,7 @@ public class Estante {
     // construtor
     public Estante (String nome){
         this.nome = nome;
-        listaTextos = new ArrayList<>();
+        listaTextos = new ArrayList<Texto>();
     }
 
     // métodos classe estante
