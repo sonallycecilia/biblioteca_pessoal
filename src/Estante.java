@@ -9,7 +9,7 @@ public class Estante {
     // construtor
     public Estante (String nome){
         this.nome = nome;
-        listaTextos = new ArrayList<>();
+        listaTextos = new ArrayList<Texto>();
     }
 
     // métodos classe estante
@@ -50,8 +50,8 @@ public class Estante {
         return this.nome;
     }
 
-    public void setNome(String noome){
-        this.nome = noome;
+    public void setNome(String nome){
+        this.nome = nome;
     }
 }
 
