@@ -54,5 +54,3 @@ public class Estante {
         this.nome = nome;
     }
 }
-
-}
