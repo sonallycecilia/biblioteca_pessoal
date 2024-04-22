@@ -5,13 +5,11 @@ public class Estante {
     // atributos
     private String nome;
     private ArrayList<Texto> listaTextos;
-
     // construtor
     public Estante (String nome){
         this.nome = nome;
         listaTextos = new ArrayList<Texto>();
     }
-
     // métodos classe estante
     public void mostrarTextos() {
         if (listaTextos.isEmpty()) { //falta implementar metodo
@@ -23,19 +21,15 @@ public class Estante {
             }
         }
     }
-
     public void adicionarTexto(Texto texto) {
         this.listaTextos.add(texto);
     }
-
     public void removerTexto(Texto texto) {
         this.listaTextos.remove(texto);
     }
-
     public int totalTextos(){
         return this.listaTextos.size();
     }
-
     public Texto sortearLeitura(){
         Random random = new Random();
         if (listaTextos.isEmpty()) {
@@ -44,12 +38,12 @@ public class Estante {
         int indiceSorteado = random.nextInt(listaTextos.size());
         return listaTextos.get(indiceSorteado);
     }
+    // CRIAR MÉTODO: FILTRAR(), POR NOME, AUTOR, NÚMERO DE PAGINAS, EDITORA, ETC. SOBRECARGA
 
     // setters e getters
     public String getNome(){
         return this.nome;
     }
-
     public void setNome(String nome){
         this.nome = nome;
     }
