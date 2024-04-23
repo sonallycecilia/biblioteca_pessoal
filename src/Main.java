@@ -67,7 +67,7 @@ public abstract class Main{
 					usuarioTeste.getListaEstantes().remove(usuarioTeste.buscarEstante(nomeEstante));
 					break;
 
-					case 4:
+			case 4:
 					System.out.printf("O que deseja adicionar? %n" + 
 									  "[1] - Livro%n" + 
 									  "[2] - Texto%n");
@@ -105,7 +105,13 @@ public abstract class Main{
 		            //livro.excluir
 					break;
 		        case 7:
-		            //estante.listar
+		           		System.out.println("Estantes de %s", usuario.getNomeExibição);
+					for (Estante estante : usuario) {
+						System.out.println("-> %s:", estante.getNome());
+						for (Texto texto : estante) {
+							System.out.println("- %s", texto.getNome());
+						}
+					}
 					break;
 		        case 8: 
 		            //pesquisar por: nome, num de páginas, autor, editora, revista;
