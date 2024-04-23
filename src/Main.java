@@ -105,12 +105,12 @@ public abstract class Main{
 		            int encontrou = 0;
 		            System.out.println("Digite o nome do texto que desejas excluir: ");
 		            String nome = sc.nextLine();
-		            for (Estante estante : usuario.getListaEstantes()){
-		                for (Texto texto : estante){
+		            for (Estante estante : usuarioTeste.getListaEstantes()){
+		                for (Texto texto : estante.getListaTextos()){
 		                    if (nome.compareTo(texto.getNomeTexto()) == 0){
 		                        encontrou = 1;
 		                        
-		                        System.ou.println("Texto encontrado na estante " + estante.getNome())
+		                        System.out.println("Texto encontrado na estante " + estante.getNome());
 		                        
 		                        estante.removerTexto(texto);
 		                        
@@ -123,11 +123,11 @@ public abstract class Main{
 		            }
 					break;
 		        case 7:
-		           		System.out.println("Estantes de %s", usuario.getNomeExibição);
-					for (Estante estante : usuario) {
-						System.out.println("-> %s:", estante.getNome());
-						for (Texto texto : estante) {
-							System.out.println("- %s", texto.getNome());
+		           		System.out.printf("Estantes de %s", usuarioTeste.getNomeExibicao());
+					for (Estante estante : usuarioTeste.getListaEstantes()) {
+						System.out.printf("-> %s:", estante.getNome());
+						for (Texto texto : estante.getListaTextos()) {
+							System.out.printf("- %s", texto.getNomeTexto());
 						}
 					}
 					break;
