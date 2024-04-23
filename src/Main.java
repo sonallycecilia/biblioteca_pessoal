@@ -48,7 +48,7 @@ public abstract class Main{
 						criarArquivo(diretorioDB, usuarioTeste.getNomeExibicao(), nomeEstante);
 						usuarioTeste.addEstante(new Estante(nomeEstante));
 						System.out.printf("'%s' estante adicionada com sucesso!\n", nomeEstante);
-						System.out.printf("N de Estantes do usuário: %d\n", usuarioTeste.getListaEstantes().size()); //não seria melhor arquivos?
+						System.out.printf("N de Estantes do usuário: %d\n", usuarioTeste.getListaEstantes().size()); //arrumar isso
 					}
 					else 
 						System.out.println("Erro ao criar Estante.");
@@ -76,9 +76,9 @@ public abstract class Main{
 					if (opcaoMenu == 1){ 
 						livro = Livro.criarLivro(sc);
 						if (livro != null){
-							usuarioTeste.addTexto("Todos", livro);
-							System.out.println(livro);
-							//logica de adicionar
+							usuarioTeste.addTexto("Todos", livro); //arrumar esse metodo
+							System.out.println(livro + livro.toString());
+							escreverDados(diretorioDB, usuarioTeste.getNomeExibicao(), "Todos", livro.toString());
 						}
 						else
 							System.out.println("Erro ao criar livro.");
@@ -194,8 +194,8 @@ public abstract class Main{
 	}
 
 	//escrever dados no arquivo
-	public static void escreverDados(File diretorio, String nome, String dados){
-		String path = diretorio.getName() + nome;
+	public static void escreverDados(File diretorio, String usuario, String estante, String dados){
+		String path = diretorio.getName() + "\\" + usuario + "\\" + estante;
 		try (BufferedWriter arquivo = new BufferedWriter(new FileWriter(path, true))){
 			arquivo.write(dados);
 			arquivo.newLine();
