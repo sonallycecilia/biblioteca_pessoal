@@ -102,7 +102,25 @@ public abstract class Main{
 		            //livro.visualizar
 					break;
 		        case 6: 
-		            //livro.excluir
+		            int encontrou = 0;
+		            System.out.println("Digite o nome do texto que desejas excluir: ");
+		            String nome = sc.nextLine();
+		            for (Estante estante : usuario.getListaEstantes()){
+		                for (Texto texto : estante){
+		                    if (nome.compareTo(texto.getNomeTexto()) == 0){
+		                        encontrou = 1;
+		                        
+		                        System.ou.println("Texto encontrado na estante " + estante.getNome())
+		                        
+		                        estante.removerTexto(texto);
+		                        
+		                        System.out.println("Texto excluido!");
+		                    }
+		                }
+		            }
+		            if (encontrou == 0){
+		                System.out.println("Texto nao encontrado");
+		            }
 					break;
 		        case 7:
 		            //estante.listar
