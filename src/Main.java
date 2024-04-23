@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -26,6 +25,7 @@ public abstract class Main{
 		int opcaoMenu;
 		String nomeEstante;
 		Livro livro;
+		Artigo artigo;
 			do{
 				menuPrincipal();
 				opcaoMenu = sc.nextInt();
@@ -54,10 +54,9 @@ public abstract class Main{
 						System.out.printf("%s adicionada com sucesso!\n", nomeEstante);
 						System.out.printf("N de Estantes do usuário: %d\n", usuarioTeste.getListaEstantes().size()); //não seria melhor arquivos?
 					}
-					else {
+					else 
 						System.out.println("Erro ao criar Estante.");
-					}
-
+		
 					break;
 
 		        case 2:
@@ -72,17 +71,35 @@ public abstract class Main{
 					usuarioTeste.getListaEstantes().remove(usuarioTeste.buscarEstante(nomeEstante));
 					break;
 
-					case 4: 
+					case 4:
+					System.out.printf("O que deseja adicionar? %n" + 
+									  "[1] - Livro%n" + 
+									  "[2] - Texto%n");
+  					opcaoMenu = sc.nextInt();
+  					sc.nextLine();
+					if (opcaoMenu == 1){ 
 						livro = Livro.criarLivro(sc);
 						if (livro != null){
 							usuarioTeste.addTexto("Todos", livro);
 							System.out.println(livro);
 							//logica de adicionar
 						}
-						else{
+						else
 							System.out.println("Erro ao criar livro.");
+					}
+					if (opcaoMenu == 2){
+						artigo = Artigo.criarArtigo(sc);
+
+						if (artigo != null){
+							usuarioTeste.addTexto("Todos", artigo);
+							System.out.println(artigo);
 						}
-						
+						else
+							System.out.println("Erro ao criar artigo.");
+					}
+					else 
+						System.out.println("Opcao Invalida, digite 1 ou 2");
+
 					break;
 					
 		        case 5:
