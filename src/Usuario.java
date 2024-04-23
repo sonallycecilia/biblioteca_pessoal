@@ -68,4 +68,5 @@ public class Usuario {
     public void setListaEstantes(ArrayList<Estante> listaEstantes) {
         this.listaEstantes = listaEstantes;
     }
+    
 }

@@ -48,6 +48,14 @@ public class Livro extends Texto {
         this.genero = genero;
     }
 
+    @Override
+    public String toString(){
+        return getNomeTexto() + " | " + getNomeAutor() + " | " + getDataPublicacao() + 
+               " | " + getInicioLeitura() + " | " + getTerminoLeitura() + " | " + getNumPaginas() + 
+               " | " + getFoiLido() + " | " +  getFoiIniciado() + " | " + getNomeEditora() +
+               " | " + getEdicao() + " | " + getGenero();
+    }
+
     public static Livro criarLivro(Scanner sc){ //passando scanner como parametro pq o vs da warnning pra fechar, assim o sc ´é fechado em main
         String nomeTexto, nomeAutor, nomeEditora, nomeGenero, dataPublicacao, dataInicio, dataTermino;
         int numEdicao, numPaginas;
