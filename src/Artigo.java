@@ -90,6 +90,6 @@ public class Artigo extends Texto {
         else
             System.out.println("Opcao Invalida, digite 1 ou 2");
         
-            return null;
+        return null;
     }
 }

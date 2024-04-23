@@ -49,8 +49,6 @@ public abstract class Main{
 					if (pasta){
 						pasta = new File(diretorioDB, nomeEstante).mkdir();
 						usuarioTeste.addEstante(new Estante(nomeEstante));
-						criarArquivo(diretorioDB, nomeEstante, "Todos");
-						criarArquivo(diretorioDB, nomeEstante, "Favoritos");
 						System.out.printf("%s adicionada com sucesso!\n", nomeEstante);
 						System.out.printf("N de Estantes do usuário: %d\n", usuarioTeste.getListaEstantes().size()); //não seria melhor arquivos?
 					}
