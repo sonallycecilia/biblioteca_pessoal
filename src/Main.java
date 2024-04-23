@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -22,9 +21,11 @@ public abstract class Main{
 		                  "|           Seja bem-vindo(a)!         |%n" +
 		                  "========================================%n");
 		System.out.println();
-		System.out.println(diretorioDB);
 
 		int opcaoMenu;
+		String nomeEstante;
+		Livro livro;
+		Artigo artigo;
 			do{
 				menuPrincipal();
 				opcaoMenu = sc.nextInt();
@@ -38,180 +39,67 @@ public abstract class Main{
 		            break;
 
 		        case 1:
-					String nomeC1;
 					boolean pasta;
 					// Tratar Estantes com o mesmo nome 
 					// Verificar se a estante realmente foi adicionada antes de exibir a mesagem de "Estante adicionada com sucesso"
 					System.out.printf("Digite o nome da Estante: ");
-                    nomeC1 = sc.nextLine();
+                    nomeEstante = sc.nextLine();
 					
-					pasta = verificarPasta(diretorioDB, nomeC1);
+					pasta = verificarPasta(diretorioDB, nomeEstante);
 					if (pasta){
-						pasta = new File(diretorioDB + "\\" + nomeC1).mkdir();
-						usuarioTeste.addEstante(new Estante(nomeC1));
-						System.out.printf("%s adicionada com sucesso!\n", nomeC1);
-						System.out.printf("N de Estantes do usuário: %d\n", usuarioTeste.getListaEstantes().size());
+						pasta = new File(diretorioDB, nomeEstante).mkdir();
+						usuarioTeste.addEstante(new Estante(nomeEstante));
+						criarArquivo(diretorioDB, nomeEstante, "Todos");
+						criarArquivo(diretorioDB, nomeEstante, "Favoritos");
+						System.out.printf("%s adicionada com sucesso!\n", nomeEstante);
+						System.out.printf("N de Estantes do usuário: %d\n", usuarioTeste.getListaEstantes().size()); //não seria melhor arquivos?
 					}
-					else {
+					else 
 						System.out.println("Erro ao criar Estante.");
-					}
-
+		
 					break;
 
 		        case 2:
-					String nomeC2;
 					System.out.printf("Digite o nome da estante que deseja visualizar: ");
-					nomeC2 = sc.nextLine();
-					usuarioTeste.buscarEstante(nomeC2).mostrarTextos();
+					nomeEstante = sc.nextLine();
+					usuarioTeste.buscarEstante(nomeEstante).mostrarTextos();
 					break;
 
 		        case 3: 
-					String nomeC3;
 					System.out.printf("Digite o nome da estante que desaja remover: ");
-					nomeC3 = sc.nextLine();
-					usuarioTeste.getListaEstantes().remove(usuarioTeste.buscarEstante(nomeC3));
+					nomeEstante = sc.nextLine();
+					usuarioTeste.getListaEstantes().remove(usuarioTeste.buscarEstante(nomeEstante));
 					break;
 
-					case 4: // Isso vai ficar mais prático numa interface gráfica
-				    int opcaoC4;
-					String nomeTexto, nomeAutor, nomeEditora, nomeGenero; 
-					String dataPublicacao, dataInicio, dataTermino;
-					boolean foiIniciado = false, foiLido = false;
-					String nomeRevista, palavras;
-					String[] palavrasArray;
-					ArrayList<String> palavrasChave;
-					int numPaginas, numEdicao;
-		            System.out.printf("O que deseja adicionar? %n" + 
-									  "1. Livro%n" + 
-									  "2. Texto%n");
-					opcaoC4 = sc.nextInt();
-					sc.nextLine();
-					switch (opcaoC4) {
-						case 1:
-							System.out.printf("Digite o nome do Livro que deseja adicionar: ");
-							nomeTexto = sc.nextLine();
-							System.out.printf("Digite o nome do Autor do livro: ");
-							nomeAutor = sc.nextLine();
-							System.out.printf("Digite o nome da Editora do livro: ");
-							nomeEditora = sc.nextLine();
-							System.out.printf("Digite o nome o Gênero do livro: ");
-							nomeGenero = sc.nextLine();
-							System.out.printf("Digite o número da Edicao do livro: ");
-							numEdicao = sc.nextInt();
-							sc.nextLine(); // Remover o \n do buffer
-							System.out.printf("Digite a Data de Publicacao do livro(dd/mm/aa): ");
-							dataPublicacao = sc.nextLine();
-							System.out.printf("Digite o Número de Páginas do livro: ");
-							numPaginas = sc.nextInt();
-							sc.nextLine();
-							System.out.printf("O livro foi Iniciado?%n1. Sim%n2. Não");
-							switch (sc.nextInt()) {
-								case 1:
-									foiIniciado = true;
-									break;
-								case 2:
-									foiIniciado = false;
-									break;
-							
-								default:
-									System.out.println("Opcao Invalida, digite 1 ou 2");
-									break;
-							}
-							sc.nextLine(); // Remover o \n do buffer
-							System.out.printf("O livro foi Lido?%n1. Sim%nNão");
-							switch (sc.nextInt()) {
-								case 1:
-									foiLido = true;
-									break;
-								case 2:
-									foiLido = false;
-									break;
-								default:
-									System.out.println("Opcao Invalida, digite 1 ou 2");
-									break;
-							}
-							sc.nextLine();// Remover o \n do buffer
-							// Criar um construtor sem essas informações
-							if (foiIniciado){
-								System.out.printf("Digite a Data que comecou a ler(dd/mm/aa):");
-								dataInicio = sc.nextLine();
-								if (foiLido){
-									System.out.printf("Digite a Data que terminou de ler(dd/mm/aa):");
-									dataTermino = sc.nextLine();
-									usuarioTeste.addTexto("TODOS", new Livro(nomeTexto, nomeAutor, dataPublicacao, dataInicio, dataTermino, numPaginas, foiLido, foiIniciado, nomeEditora, numEdicao, nomeGenero)); 	
-								}
-								usuarioTeste.addTexto("TODOS", new Livro(nomeTexto, nomeAutor, dataPublicacao, dataInicio, numPaginas, foiLido, foiIniciado, nomeEditora, numEdicao, nomeGenero)); 	
-							}
-							/* Por Enquanto, o livro vai ser adicionado na estante geral.
-						       Depois, mostrar as estante disponíveis para o usuário, 
-							   e perguntar em quais estantes ele deseja adicionar*/
-							usuarioTeste.addTexto("TODOS", new Livro(nomeTexto, nomeAutor, dataPublicacao, numPaginas, foiLido, foiIniciado, nomeEditora, numEdicao, nomeGenero)); 
-							break;
- 
-						case 2:
-							palavrasChave = new ArrayList<String>();
-							System.out.printf("Digite o nome do Artigo que deseja adicionar: ");
-							nomeTexto = sc.nextLine();
-							System.out.printf("Digite o nome do(s) Autor(es) do artigo, separar cada autor por vírgulas: "); 
-							nomeAutor = sc.nextLine(); // Criar um Array de Strings para os Autores do Artigo 
-							System.out.printf("Digite a Data de Publicacao do artigo: ");
-							dataPublicacao = sc.nextLine();
-							System.out.printf("Digite o Número de Paginas do artigo: ");
-							numPaginas = sc.nextInt();
-							sc.nextLine(); // "remover" o \n do buffer;
-							System.out.printf("Digite o nome da Revista que publicou o artigo: ");
-							nomeRevista = sc.nextLine();
-							System.out.printf("Digite as palavras-chave do artigo, separe por vírgulas(,): ");
-							palavras = sc.nextLine();
-							palavrasArray = palavras.split(",");
-							for(String s : palavrasArray){
-								palavrasChave.add(s);
-							}
-							System.out.printf("O artigo foi Iniciado?%n1. Sim%n2. Não");
-							switch (sc.nextInt()) {
-								case 1:
-									foiIniciado = true;
-									break;
-								case 2:
-									foiIniciado = false;
-									break;
-							
-								default:
-									System.out.println("Opcao Invalida, digite 1 ou 2");
-									break;
-							}
-							sc.nextLine(); // Remover o \n do buffer
-							System.out.printf("O artigo foi Lido?%n1. Sim%nNão");
-							switch (sc.nextInt()) {
-								case 1:
-									foiLido = true;
-									break;
-								case 2:
-									foiLido = false;
-									break;
-								default:
-									System.out.println("Opcao Invalida, digite 1 ou 2");
-									break;
-							}
-							sc.nextLine();// Remover o \n do buffer
-							// Criar um construtor sem essas informações
-							if (foiIniciado){
-								System.out.printf("Digite a Data que comecou a ler(dd/mm/aa):");
-								dataInicio = sc.nextLine();
-								usuarioTeste.addTexto("TODOS", new Artigo(nomeTexto, nomeAutor, dataPublicacao, dataInicio, numPaginas, foiLido, foiIniciado, nomeRevista, palavrasChave));
-								if (foiLido){
-									System.out.printf("Digite a Data que terminou de ler(dd/mm/aa):");
-									dataTermino = sc.nextLine();
-									usuarioTeste.addTexto("TODOS", new Artigo(nomeTexto, nomeAutor, dataPublicacao, dataInicio, dataTermino, numPaginas, foiLido, foiIniciado, nomeRevista, palavrasChave));
-								}
-									
-							}
-							usuarioTeste.addTexto("TODOS", new Artigo(nomeTexto, nomeAutor, dataPublicacao, numPaginas, foiLido, foiIniciado, nomeRevista, palavrasChave));
-							break;
-						default:
-							System.out.println("Opcao invalida, digite 1 ou 2");
-							break;
+					case 4:
+					System.out.printf("O que deseja adicionar? %n" + 
+									  "[1] - Livro%n" + 
+									  "[2] - Texto%n");
+  					opcaoMenu = sc.nextInt();
+  					sc.nextLine();
+					if (opcaoMenu == 1){ 
+						livro = Livro.criarLivro(sc);
+						if (livro != null){
+							usuarioTeste.addTexto("Todos", livro);
+							System.out.println(livro);
+							//logica de adicionar
+						}
+						else
+							System.out.println("Erro ao criar livro.");
 					}
+					if (opcaoMenu == 2){
+						artigo = Artigo.criarArtigo(sc);
+
+						if (artigo != null){
+							usuarioTeste.addTexto("Todos", artigo);
+							System.out.println(artigo);
+						}
+						else
+							System.out.println("Erro ao criar artigo.");
+					}
+					else 
+						System.out.println("Opcao Invalida, digite 1 ou 2");
+
 					break;
 					
 		        case 5:
@@ -263,12 +151,12 @@ public abstract class Main{
 	}
 
 	//funções de arquivo
-	public static void criarArquivo(File diretorio, String nome){
-		String path = diretorio.getName() + nome + ".txt"; //criando o arquivo com base no nome informado pelo usuário
+	public static void criarArquivo(File diretorio, String nomeEstante, String nomeArquivo){
+		String path = diretorio.getName() + "\\" + nomeEstante + "\\" + nomeArquivo + ".txt"; //criando o arquivo com base no nome informado pelo usuário
 		File aq = new File(path);
 		if (!aq.exists()){
 			try (FileWriter arquivo = new FileWriter(path)){
-				System.out.println("Arquivo criado com sucesso.");
+				System.out.println(nomeArquivo + " criado com sucesso.");
 			}
 			catch (IOException e){
 				System.out.println("Erro ao criar arquivo.");
