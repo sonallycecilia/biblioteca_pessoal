@@ -16,13 +16,32 @@ public class Usuario {
     public void addEstante(Estante estante){
         listaEstantes.add(estante);
     }
+    public int addTexto(Estante estante, Texto texto){
+        for(Estante e: listaEstantes){
+            if(estante == e){
+                e.adicionarTexto(texto);
+                return 1;
+            }
+        }
+        return 0;
+    }
+    public int addTexto(String nomeEstante, Texto texto){
+        for(Estante e: listaEstantes){
+            if(nomeEstante == e.getNome()){
+                e.adicionarTexto(texto);
+                return 1;
+            }
+        }
+        return 0;
+    }
+
     public Estante buscarEstante(String nome){
         for(Estante e : listaEstantes){
             if(nome == e.getNome()){
                 return e;
             }
         }
-        return new Estante(null);
+        return null;
     }
 
     public String getNomeExibicao() {
