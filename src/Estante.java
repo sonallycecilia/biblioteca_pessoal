@@ -240,4 +240,8 @@ public class Estante {
     public void setNome(String nome){
         this.nome = nome;
     }
+
+    public ArrayList<Texto> getListaTextos() {
+        return listaTextos;
+    }
 }
