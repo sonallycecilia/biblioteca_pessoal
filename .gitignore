@@ -1,3 +1,6 @@
 
 /bin
 *.class
+/bin
+bin/Main.class
+*.class

@@ -17,7 +17,7 @@ public abstract class Main{
 		 // Talvez isso mude se o escopo de cada operação for redirecionado para um método à parte
 		Scanner sc = new Scanner(System.in);
 		File diretorioDB = new File(System.getProperty("user.dir") + "\\database\\"); //caminho absoluto
-		Usuario usuarioTeste = new Usuario("Teste", "admin", "123");
+		Usuario usuarioTeste = new Usuario("nally", "admin", "123");
 
 	    System.out.printf("%n========== BIBLIOTECA PESSOAL ==========%n" +
 		                  "|           Seja bem-vindo(a)!         |%n" +
@@ -38,33 +38,28 @@ public abstract class Main{
 		        case 0:
 					System.out.println("Programa encerrado!");
 		            break;
-
-		        case 1:
-					String nomeC1;
-					boolean pasta;
-					// Tratar Estantes com o mesmo nome 
-					// Verificar se a estante realmente foi adicionada antes de exibir a mesagem de "Estante adicionada com sucesso"
-					System.out.printf("Digite o nome da Estante: ");
-                    nomeC1 = sc.nextLine();
 					
-					pasta = verificarPasta(diretorioDB, nomeC1);
-					if (pasta){
-						pasta = new File(diretorioDB + "\\" + nomeC1).mkdir();
-						usuarioTeste.addEstante(new Estante(nomeC1));
-						System.out.printf("%s adicionada com sucesso!\n", nomeC1);
-						System.out.printf("N de Estantes do usuário: %d\n", usuarioTeste.getListaEstantes().size());
+				case 1:// Tratar Estantes com o mesmo nome 
+					boolean arquivo;
+					System.out.printf("Digite o nome da Estante: ");
+					nomeEstante = sc.nextLine();
+					
+					arquivo = verificarPasta(diretorioDB, nomeEstante);
+					if (arquivo){
+						criarArquivo(diretorioDB, usuarioTeste.getNomeExibicao(), nomeEstante);
+						usuarioTeste.addEstante(new Estante(nomeEstante));
+						System.out.printf("'%s' estante adicionada com sucesso!\n", nomeEstante);
+						System.out.printf("N de Estantes do usuário: %d\n", usuarioTeste.getListaEstantes().size()); //arrumar isso
 					}
-					else {
+					else 
 						System.out.println("Erro ao criar Estante.");
-					}
-
-					break;
+	
+				break;
 
 		        case 2:
-					String nomeC2;
 					System.out.printf("Digite o nome da estante que deseja visualizar: ");
-					nomeC2 = sc.nextLine();
-					usuarioTeste.buscarEstante(nomeC2).mostrarTextos();
+					nomeEstante = sc.nextLine();
+					usuarioTeste.buscarEstante(nomeEstante).mostrarTextos();
 					break;
 
 		        case 3: 
@@ -148,26 +143,26 @@ public abstract class Main{
 					nomeTexto = sc.nextLine();
 
 					break;
-		        case 6: 
-		            int encontrou = 0;
-		            System.out.println("Digite o nome do texto que desejas excluir: ");
-		            String nome = sc.nextLine();
-		            for (Estante estante : usuarioTeste.getListaEstantes()){
-		                for (Texto t : estante.getListaTextos()){
-		                    if (nome.compareTo(t.getNomeTexto()) == 0){
-		                        encontrou = 1;
-		                        
-		                        System.out.println("Texto encontrado na estante " + estante.getNome());
-		                        
-		                        estante.removerTexto(t);
-		                        
-		                        System.out.println("Texto excluido!");
-		                    }
-		                }
-		            }
-		            if (encontrou == 0){
-		                System.out.println("Texto nao encontrado");
-		            }
+				case 6: 
+					int encontrou = 0;
+					System.out.println("Digite o nome do texto que desejas excluir: ");
+					String nome = sc.nextLine();
+					for (Estante estante : usuarioTeste.getListaEstantes()){
+						for (Texto t : estante.getListaTextos()){
+							if (nome.compareTo(t.getNomeTexto()) == 0){
+								encontrou = 1;
+								
+								System.out.println("Texto encontrado na estante " + estante.getNome());
+								
+								estante.removerTexto(t);
+								
+								System.out.println("Texto excluido!");
+							}
+						}
+					}
+					if (encontrou == 0){
+						System.out.println("Texto nao encontrado");
+					}
 					break;
 		        case 7:
 		           		System.out.printf("Estantes de %s", usuarioTeste.getNomeExibicao());
@@ -181,6 +176,25 @@ public abstract class Main{
 		        case 8: 
 		            //pesquisar por: nome, num de páginas, autor, editora, revista;
 					break; 
+				case 9:
+					boolean pasta;
+					// Tratar Estantes com o mesmo nome 
+					// Verificar se a estante realmente foi adicionada antes de exibir a mesagem de "Estante adicionada com sucesso"
+					System.out.printf("Digite o nome do Usuario: ");
+					nomeUsuario = sc.nextLine();
+					
+					pasta = verificarPasta(diretorioDB, nomeUsuario);
+					if (pasta){
+						pasta = new File(diretorioDB, nomeUsuario).mkdir();
+						usuarioTeste.addEstante(new Estante(nomeUsuario)); //verificar esse metodo depois
+						criarArquivo(diretorioDB, nomeUsuario, "Todos"); //criando uma estante genérica
+						System.out.printf("%s usuário criado com sucesso!\n", nomeUsuario);
+						System.out.printf("N de Estantes do usuário: %d\n", usuarioTeste.getListaEstantes().size()); //não seria melhor arquivos?
+					}
+					else 
+						System.out.println("Erro ao criar Estante.");
+
+					break;
 				default:
 					System.out.println("Opcao Invalida!");
 					break;
@@ -201,6 +215,7 @@ public abstract class Main{
 						"[6] - Excluir Texto;%n" +
 						"[7] - Listar Estantes;%n" +
 						"[8] - Pesquisar;%n" +
+						"[9] - Criar Usuário;%n" +
 						"[0] - Sair;%n");
 		System.out.print("Opcao: ");
 	}
@@ -210,20 +225,31 @@ public abstract class Main{
 		File[] pastas = diretorio.listFiles(File::isDirectory);
 		for (File p : pastas){
 				if (p.getName() == nome){
-					System.out.println("Já existe uma estante com esse nome.");
+					System.out.println("Já existe um usuário com esse nome.");
 					return false; //ja existe uma pasta com o nome, portanto cria-la é falso						
 				}
 			}
 			return true;
 	}
 
+	public static boolean verificarArquivo(File diretorio, String nome){
+		File[] arquivos = diretorio.listFiles(File::isFile);
+		for (File a : arquivos){
+			if (a.getName() == nome){
+				System.out.println("Já existe uma estante com esse nome.");
+				return false;
+			}
+		}
+		return true;
+	}
+
 	//funções de arquivo
-	public static void criarArquivo(File diretorio, String nome){
-		String path = diretorio.getName() + nome + ".txt"; //criando o arquivo com base no nome informado pelo usuário
+	public static void criarArquivo(File diretorio, String usuario, String nomeArquivo){
+		String path = diretorio.getName() + "\\" + usuario + "\\" + nomeArquivo + ".txt"; //criando o arquivo com base no nome informado pelo usuário
 		File aq = new File(path);
 		if (!aq.exists()){
 			try (FileWriter arquivo = new FileWriter(path)){
-				System.out.println("Arquivo criado com sucesso.");
+				System.out.println(nomeArquivo + " criado com sucesso.");
 			}
 			catch (IOException e){
 				System.out.println("Erro ao criar arquivo.");
@@ -233,8 +259,8 @@ public abstract class Main{
 	}
 
 	//escrever dados no arquivo
-	public static void escreverDados(File diretorio, String nome, String dados){
-		String path = diretorio.getName() + nome;
+	public static void escreverDados(File diretorio, String usuario, String estante, String dados){
+		String path = diretorio.getName() + "\\" + usuario + "\\" + estante;
 		try (BufferedWriter arquivo = new BufferedWriter(new FileWriter(path, true))){
 			arquivo.write(dados);
 			arquivo.newLine();
@@ -245,6 +271,4 @@ public abstract class Main{
 			e.printStackTrace(); //IO exception é gerada as vezes ao tentar abrir um arquivo txt atraves do scanner, por isso temos que adicionar uma execeção, ela imprime o tipo de erro
 		}
 	}
-
-	//public static Texto criarTexto(){}
 }
