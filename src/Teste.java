@@ -1,7 +1,24 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Teste {
     public static void main(String[] args) {
-        String s1 = "Nome";
-        String s2 = "NOme";
-        System.out.printf("%b", s1 == s2);
+        System.out.println("programa iniciado");
+        ArrayList<String> nomeAutores = new ArrayList<String>();
+        String nomeAutor;
+        Scanner sc = new Scanner(System.in);
+    
+        nomeAutor = sc.nextLine();
+        nomeAutores.add(nomeAutor);
+        mostrarAutores(nomeAutores);    
+
+        sc.close();
+    }
+
+    private static void mostrarAutores(ArrayList<String> nomeAutores) {
+        for(String s : nomeAutores){
+            System.out.printf("ArrayList: ");
+            System.out.println(s);
+        }
     }
 }

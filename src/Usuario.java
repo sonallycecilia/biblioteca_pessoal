@@ -1,11 +1,13 @@
 import java.util.ArrayList;
 
 public class Usuario {
+    // Atributos
     private String nomeExibicao;
     private String login;
     private String senha;
     private ArrayList<Estante> listaEstantes;
     
+    // Construtor
     public Usuario(String nomeExibicao, String nome, String senha){
         this.nomeExibicao = nomeExibicao;
         this.login = nome;
@@ -13,6 +15,7 @@ public class Usuario {
         this.listaEstantes = new ArrayList<Estante>();
     }
 
+    // Métodos
     public void addEstante(Estante estante){
         listaEstantes.add(estante);
     }
@@ -44,6 +47,7 @@ public class Usuario {
         return null;
     }
 
+    // getters e setters
     public String getNomeExibicao() {
         return nomeExibicao;
     }

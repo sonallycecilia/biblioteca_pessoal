@@ -8,6 +8,7 @@ import java.io.IOException;
 // Fazer o javadoc
 public abstract class Main{
 	public static void main(String[] args) {
+		
 		/*Criação do usuário
 		 * puxar dados com as informações do usuário de um arquivo txt(temporariamente)
 		 * utilizar uma API de bando de dados depois
@@ -25,6 +26,10 @@ public abstract class Main{
 		System.out.println(diretorioDB);
 
 		int opcaoMenu;
+<<<<<<< Updated upstream
+=======
+		String nomeEstante, nomeUsuario;
+>>>>>>> Stashed changes
 			do{
 				menuPrincipal();
 				opcaoMenu = sc.nextInt();
@@ -72,6 +77,7 @@ public abstract class Main{
 					usuarioTeste.getListaEstantes().remove(usuarioTeste.buscarEstante(nomeC3));
 					break;
 
+<<<<<<< Updated upstream
 					case 4: // Isso vai ficar mais prático numa interface gráfica
 				    int opcaoC4;
 					String nomeTexto, nomeAutor, nomeEditora, nomeGenero; 
@@ -214,14 +220,118 @@ public abstract class Main{
 					}
 					break;
 					
+=======
+				case 4:
+					/*Adicionar novas forma de criação de livro, criação mais simples, apenas com o nome e o autor
+					  Fazer uma verificação após cada entrada ser lida, se o usuário digitar 0, a operação é finalizada*/ 
+					// inicializar as variáveis com seus valores padrão
+					String nomeTexto, nomeAutor, nomeEditora, nomeRevista, nomeGenero, palavras, dataPublicacao, dataInicio, dataTermino;
+					ArrayList<String> nomeAutores = new ArrayList<String>();
+					ArrayList<String> palavrasChave = new ArrayList<String>();
+					int numEdicao, numPaginas;
+					int opcao, foiLido, foiIniciado;
+					Texto texto = null;
+
+					System.out.println("Deseja adicionar um Livro ou um Artigo?" + "%n1. Livro%n2. Artigo%n:");
+					do {
+						opcao = sc.nextInt();
+						sc.nextLine(); // Remover o \n do buffer
+					} while (opcao != 1 || opcao != 2);
+					System.out.printf("Digite o nome do Texto que deseja adicionar: ");
+					nomeTexto = sc.nextLine();
+					System.out.printf("Digite o nome do Autor(es) do Texto. Separe por ',': ");
+					nomeAutor = sc.nextLine();		
+					sc.nextLine(); // Remover o \n do buffer
+					System.out.printf("Digite a Data de Publicacao do Texto(dd/mm/aa): ");
+					dataPublicacao = sc.nextLine();
+					System.out.printf("Digite o Número de Páginas do Texto: ");
+					numPaginas = sc.nextInt();
+					if(opcao == 1){
+						System.out.printf("Digite o nome da Editora: ");
+						nomeEditora = sc.nextLine();
+						System.out.printf("Qual o numero da edicao? ");
+						numEdicao = sc.nextInt();
+						sc.nextLine(); // Remover o \n do buffer
+						System.out.printf("Qual é o gênero do livro? : ");
+						nomeGenero = sc.nextLine();
+						// adicionando a String de nome dos autores no ArrayList
+						for(String s : nomeAutor.split(Texto.SEPARADOR_STRING)){
+							nomeAutores.add(s);
+						}
+						texto = new Livro(nomeTexto, nomeAutores, dataPublicacao, numPaginas, nomeEditora, numEdicao, nomeGenero);
+					} else if(opcao == 2){
+						System.out.printf("Digite o nome da Revista: ");
+						nomeRevista = sc.nextLine(); 
+						System.out.printf("Quais sao as palavras chave? Separe por ',': ");
+						palavras = sc.nextLine(); 
+						// adicionando a String de palavras-chave no ArrayList
+						for(String s : palavras.split(Texto.SEPARADOR_STRING)){
+							palavrasChave.add(s);
+						}
+						texto = new Artigo(nomeTexto, nomeAutores, dataPublicacao, numPaginas, nomeRevista, palavrasChave);
+					} 
+					// leitura de datas
+					System.out.println("O Texto foi iniciado?"+"%n1. Sim%n2. Não%n:");
+					foiIniciado = sc.nextInt();
+					sc.nextLine(); // Remover o \n do buffer
+					if(foiIniciado == 1){
+						texto.setFoiIniciado(true);
+						System.out.println("O Texto foi lido?"+"%n1. Sim%n2. Não%n:");
+						foiLido = sc.nextInt();
+						sc.nextLine(); // Remover o \n do buffer
+						System.out.println("Digite a data que começou a ler(dd/mm/aa):");
+						dataInicio = sc.nextLine();
+						texto.setInicioLeitura(dataInicio);
+						if(foiLido == 1){
+							texto.setFoiLido(true);
+							System.out.println("Digite a data que terminou de ler(dd/mm/aa):");
+							dataTermino = sc.nextLine(); 
+							texto.setTerminoLeitura(dataTermino);
+						}
+					}	
+					break;		
+>>>>>>> Stashed changes
 		        case 5:
-		            //livro.visualizar
+		            System.out.printf("Digite o nome do livro que deseja visualizar: ");
+					nomeTexto = sc.nextLine();
+
 					break;
 		        case 6: 
+<<<<<<< Updated upstream
 		            //livro.excluir
 					break;
 		        case 7:
 		            //estante.listar
+=======
+		            int encontrou = 0;
+		            System.out.println("Digite o nome do texto que desejas excluir: ");
+		            String nome = sc.nextLine();
+		            for (Estante estante : usuarioTeste.getListaEstantes()){
+		                for (Texto t : estante.getListaTextos()){
+		                    if (nome.compareTo(t.getNomeTexto()) == 0){
+		                        encontrou = 1;
+		                        
+		                        System.out.println("Texto encontrado na estante " + estante.getNome());
+		                        
+		                        estante.removerTexto(t);
+		                        
+		                        System.out.println("Texto excluido!");
+		                    }
+		                }
+		            }
+		            if (encontrou == 0){
+		                System.out.println("Texto nao encontrado");
+		            }
+					break;
+		        case 7:
+		           		System.out.printf("Estantes de %s", usuarioTeste.getNomeExibicao());
+					for (Estante estante : usuarioTeste.getListaEstantes()) {
+						System.out.printf("-> %s:", estante.getNome());
+						for (Texto t : estante.getListaTextos()) {
+							System.out.printf("- %s", t.getNomeTexto());
+						}
+					}
+>>>>>>> Stashed changes
 					break;
 		        case 8: 
 		            //pesquisar por: nome, num de páginas, autor, editora, revista;
@@ -290,4 +400,10 @@ public abstract class Main{
 			e.printStackTrace(); //IO exception é gerada as vezes ao tentar abrir um arquivo txt atraves do scanner, por isso temos que adicionar uma execeção, ela imprime o tipo de erro
 		}
 	}
+<<<<<<< Updated upstream
 }
+=======
+
+	//public static Texto criarTexto(){}
+}
+>>>>>>> Stashed changes
