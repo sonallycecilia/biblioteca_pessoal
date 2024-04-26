@@ -45,9 +45,6 @@ public class Estante {
     // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     // CRIAR MÉTODO: FILTRAR(), POR NOME, AUTOR, NÚMERO DE PAGINAS, EDITORA, ETC. SOBRECARGA
-<<<<<<< Updated upstream
-
-=======
     
     public void filtrarNome(String nome){
         int encontrou = 0;
@@ -242,7 +239,6 @@ public class Estante {
         }
     }
     
->>>>>>> Stashed changes
     // setters e getters
     public String getNome(){
         return this.nome;
@@ -250,10 +246,7 @@ public class Estante {
     public void setNome(String nome){
         this.nome = nome;
     }
-<<<<<<< Updated upstream
-=======
     public ArrayList<Texto> getListaTextos() {
         return listaTextos;
     }
->>>>>>> Stashed changes
 }

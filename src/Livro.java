@@ -1,8 +1,5 @@
-<<<<<<< Updated upstream
-=======
 import java.util.ArrayList;
 
->>>>>>> Stashed changes
 public class Livro extends Texto {
     // atributos subclasse
     private String nomeEditora;
@@ -23,15 +20,9 @@ public class Livro extends Texto {
         this.numEdicao = numEdicao;
         this.nomeGenero = nomeGenero;
     }
-<<<<<<< Updated upstream
-    // Construtor com sem a data do Término da Leitura
-    public Livro(String nomeTexto, String nomeAutor, String dataPublicacao, String inicioLeitura, int numPaginas, boolean foiLido, boolean foiIniciado, String nomeEditora, int edicao, String genero) {
-        super(nomeTexto, nomeAutor, dataPublicacao, inicioLeitura, " ", numPaginas, foiLido, foiIniciado);
-=======
     // Construtor sem a data do Término da Leitura
     public Livro(String nomeTexto, ArrayList<String> nomeAutores, String dataPublicacao, String inicioLeitura, int numPaginas, boolean foiLido, boolean foiIniciado, String nomeEditora, int numEdicao, String nomeGenero) {
         super(nomeTexto, nomeAutores, dataPublicacao, inicioLeitura, null, numPaginas, foiLido, foiIniciado);
->>>>>>> Stashed changes
         this.nomeEditora = nomeEditora;
         this.numEdicao = numEdicao;
         this.nomeGenero = nomeGenero;
@@ -64,12 +55,7 @@ public class Livro extends Texto {
     public String getnomeGenero() {
         return nomeGenero;
     }
-<<<<<<< Updated upstream
-    public void setGenero(String genero) {
-        this.genero = genero;
-=======
     public void setnomeGenero(String nomeGenero) {
         this.nomeGenero = nomeGenero;
->>>>>>> Stashed changes
     }
 }

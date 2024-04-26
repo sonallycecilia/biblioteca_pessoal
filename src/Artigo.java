@@ -47,10 +47,4 @@ public class Artigo extends Texto {
     public void setPalavrasChave(ArrayList<String> palavrasChave) {
         this.palavrasChave = palavrasChave;
     }
-<<<<<<< Updated upstream
-    public static void main(String[] args) {
-        
-    }
-=======
->>>>>>> Stashed changes
 }

@@ -26,10 +26,7 @@ public abstract class Main{
 		System.out.println(diretorioDB);
 
 		int opcaoMenu;
-<<<<<<< Updated upstream
-=======
 		String nomeEstante, nomeUsuario;
->>>>>>> Stashed changes
 			do{
 				menuPrincipal();
 				opcaoMenu = sc.nextInt();
@@ -77,150 +74,6 @@ public abstract class Main{
 					usuarioTeste.getListaEstantes().remove(usuarioTeste.buscarEstante(nomeC3));
 					break;
 
-<<<<<<< Updated upstream
-					case 4: // Isso vai ficar mais prático numa interface gráfica
-				    int opcaoC4;
-					String nomeTexto, nomeAutor, nomeEditora, nomeGenero; 
-					String dataPublicacao, dataInicio, dataTermino;
-					boolean foiIniciado = false, foiLido = false;
-					String nomeRevista, palavras;
-					String[] palavrasArray;
-					ArrayList<String> palavrasChave;
-					int numPaginas, numEdicao;
-		            System.out.printf("O que deseja adicionar? %n" + 
-									  "1. Livro%n" + 
-									  "2. Texto%n");
-					opcaoC4 = sc.nextInt();
-					sc.nextLine();
-					switch (opcaoC4) {
-						case 1:
-							System.out.printf("Digite o nome do Livro que deseja adicionar: ");
-							nomeTexto = sc.nextLine();
-							System.out.printf("Digite o nome do Autor do livro: ");
-							nomeAutor = sc.nextLine();
-							System.out.printf("Digite o nome da Editora do livro: ");
-							nomeEditora = sc.nextLine();
-							System.out.printf("Digite o nome o Gênero do livro: ");
-							nomeGenero = sc.nextLine();
-							System.out.printf("Digite o número da Edicao do livro: ");
-							numEdicao = sc.nextInt();
-							sc.nextLine(); // Remover o \n do buffer
-							System.out.printf("Digite a Data de Publicacao do livro(dd/mm/aa): ");
-							dataPublicacao = sc.nextLine();
-							System.out.printf("Digite o Número de Páginas do livro: ");
-							numPaginas = sc.nextInt();
-							sc.nextLine();
-							System.out.printf("O livro foi Iniciado?%n1. Sim%n2. Não");
-							switch (sc.nextInt()) {
-								case 1:
-									foiIniciado = true;
-									break;
-								case 2:
-									foiIniciado = false;
-									break;
-							
-								default:
-									System.out.println("Opcao Invalida, digite 1 ou 2");
-									break;
-							}
-							sc.nextLine(); // Remover o \n do buffer
-							System.out.printf("O livro foi Lido?%n1. Sim%nNão");
-							switch (sc.nextInt()) {
-								case 1:
-									foiLido = true;
-									break;
-								case 2:
-									foiLido = false;
-									break;
-								default:
-									System.out.println("Opcao Invalida, digite 1 ou 2");
-									break;
-							}
-							sc.nextLine();// Remover o \n do buffer
-							// Criar um construtor sem essas informações
-							if (foiIniciado){
-								System.out.printf("Digite a Data que comecou a ler(dd/mm/aa):");
-								dataInicio = sc.nextLine();
-								if (foiLido){
-									System.out.printf("Digite a Data que terminou de ler(dd/mm/aa):");
-									dataTermino = sc.nextLine();
-									usuarioTeste.addTexto("TODOS", new Livro(nomeTexto, nomeAutor, dataPublicacao, dataInicio, dataTermino, numPaginas, foiLido, foiIniciado, nomeEditora, numEdicao, nomeGenero)); 	
-								}
-								usuarioTeste.addTexto("TODOS", new Livro(nomeTexto, nomeAutor, dataPublicacao, dataInicio, numPaginas, foiLido, foiIniciado, nomeEditora, numEdicao, nomeGenero)); 	
-							}
-							/* Por Enquanto, o livro vai ser adicionado na estante geral.
-						       Depois, mostrar as estante disponíveis para o usuário, 
-							   e perguntar em quais estantes ele deseja adicionar*/
-							usuarioTeste.addTexto("TODOS", new Livro(nomeTexto, nomeAutor, dataPublicacao, numPaginas, foiLido, foiIniciado, nomeEditora, numEdicao, nomeGenero)); 
-							break;
- 
-						case 2:
-							palavrasChave = new ArrayList<String>();
-							System.out.printf("Digite o nome do Artigo que deseja adicionar: ");
-							nomeTexto = sc.nextLine();
-							System.out.printf("Digite o nome do(s) Autor(es) do artigo, separar cada autor por vírgulas: "); 
-							nomeAutor = sc.nextLine(); // Criar um Array de Strings para os Autores do Artigo 
-							System.out.printf("Digite a Data de Publicacao do artigo: ");
-							dataPublicacao = sc.nextLine();
-							System.out.printf("Digite o Número de Paginas do artigo: ");
-							numPaginas = sc.nextInt();
-							sc.nextLine(); // "remover" o \n do buffer;
-							System.out.printf("Digite o nome da Revista que publicou o artigo: ");
-							nomeRevista = sc.nextLine();
-							System.out.printf("Digite as palavras-chave do artigo, separe por vírgulas(,): ");
-							palavras = sc.nextLine();
-							palavrasArray = palavras.split(",");
-							for(String s : palavrasArray){
-								palavrasChave.add(s);
-							}
-							System.out.printf("O artigo foi Iniciado?%n1. Sim%n2. Não");
-							switch (sc.nextInt()) {
-								case 1:
-									foiIniciado = true;
-									break;
-								case 2:
-									foiIniciado = false;
-									break;
-							
-								default:
-									System.out.println("Opcao Invalida, digite 1 ou 2");
-									break;
-							}
-							sc.nextLine(); // Remover o \n do buffer
-							System.out.printf("O artigo foi Lido?%n1. Sim%nNão");
-							switch (sc.nextInt()) {
-								case 1:
-									foiLido = true;
-									break;
-								case 2:
-									foiLido = false;
-									break;
-								default:
-									System.out.println("Opcao Invalida, digite 1 ou 2");
-									break;
-							}
-							sc.nextLine();// Remover o \n do buffer
-							// Criar um construtor sem essas informações
-							if (foiIniciado){
-								System.out.printf("Digite a Data que comecou a ler(dd/mm/aa):");
-								dataInicio = sc.nextLine();
-								usuarioTeste.addTexto("TODOS", new Artigo(nomeTexto, nomeAutor, dataPublicacao, dataInicio, numPaginas, foiLido, foiIniciado, nomeRevista, palavrasChave));
-								if (foiLido){
-									System.out.printf("Digite a Data que terminou de ler(dd/mm/aa):");
-									dataTermino = sc.nextLine();
-									usuarioTeste.addTexto("TODOS", new Artigo(nomeTexto, nomeAutor, dataPublicacao, dataInicio, dataTermino, numPaginas, foiLido, foiIniciado, nomeRevista, palavrasChave));
-								}
-									
-							}
-							usuarioTeste.addTexto("TODOS", new Artigo(nomeTexto, nomeAutor, dataPublicacao, numPaginas, foiLido, foiIniciado, nomeRevista, palavrasChave));
-							break;
-						default:
-							System.out.println("Opcao invalida, digite 1 ou 2");
-							break;
-					}
-					break;
-					
-=======
 				case 4:
 					/*Adicionar novas forma de criação de livro, criação mais simples, apenas com o nome e o autor
 					  Fazer uma verificação após cada entrada ser lida, se o usuário digitar 0, a operação é finalizada*/ 
@@ -290,19 +143,12 @@ public abstract class Main{
 						}
 					}	
 					break;		
->>>>>>> Stashed changes
 		        case 5:
 		            System.out.printf("Digite o nome do livro que deseja visualizar: ");
 					nomeTexto = sc.nextLine();
 
 					break;
 		        case 6: 
-<<<<<<< Updated upstream
-		            //livro.excluir
-					break;
-		        case 7:
-		            //estante.listar
-=======
 		            int encontrou = 0;
 		            System.out.println("Digite o nome do texto que desejas excluir: ");
 		            String nome = sc.nextLine();
@@ -331,7 +177,6 @@ public abstract class Main{
 							System.out.printf("- %s", t.getNomeTexto());
 						}
 					}
->>>>>>> Stashed changes
 					break;
 		        case 8: 
 		            //pesquisar por: nome, num de páginas, autor, editora, revista;
@@ -400,10 +245,6 @@ public abstract class Main{
 			e.printStackTrace(); //IO exception é gerada as vezes ao tentar abrir um arquivo txt atraves do scanner, por isso temos que adicionar uma execeção, ela imprime o tipo de erro
 		}
 	}
-<<<<<<< Updated upstream
-}
-=======
 
 	//public static Texto criarTexto(){}
 }
->>>>>>> Stashed changes
