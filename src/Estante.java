@@ -1,4 +1,5 @@
-package classes;
+
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -6,11 +7,13 @@ public class Estante {
     // atributos
     private String nome;
     private ArrayList<Texto> listaTextos;
+
     // construtor
     public Estante (String nome){
         this.nome = nome;
         listaTextos = new ArrayList<Texto>();
     }
+
     // métodos classe estante
     public void mostrarTextos() {
         if (listaTextos.isEmpty()) { //falta implementar metodo
@@ -22,6 +25,8 @@ public class Estante {
             }
         }
     }
+
+    // é desnecessário criar funções para isso, já existem métodos do ArrayList para isso
     public void adicionarTexto(Texto texto) {
         this.listaTextos.add(texto);
     }
@@ -39,6 +44,8 @@ public class Estante {
         int indiceSorteado = random.nextInt(listaTextos.size());
         return listaTextos.get(indiceSorteado);
     }
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
     // CRIAR MÉTODO: FILTRAR(), POR NOME, AUTOR, NÚMERO DE PAGINAS, EDITORA, ETC. SOBRECARGA
     
     public void filtrarNome(String nome){
@@ -68,7 +75,7 @@ public class Estante {
     public void filtrarAutor(String autor){
         int encontrou = 0;
         for (Texto texto : listaTextos){
-            if (autor.compareTo(texto.getNomeAutor()) == 0){
+            if (autor.compareTo(texto.buscarNomeAutor(autor)) == 0){
                 System.out.println("Texto encontrado!%n");
                 System.out.printf("Nome: " + texto.getNomeTexto() + 
 						"%nAutor: " + texto.getNomeAutor() + 
@@ -241,7 +248,6 @@ public class Estante {
     public void setNome(String nome){
         this.nome = nome;
     }
-
     public ArrayList<Texto> getListaTextos() {
         return listaTextos;
     }

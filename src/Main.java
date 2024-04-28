@@ -1,4 +1,6 @@
-package classes;
+
+
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,6 +10,7 @@ import java.io.IOException;
 // Fazer o javadoc
 public abstract class Main{
 	public static void main(String[] args) {
+		
 		/*Criação do usuário
 		 * puxar dados com as informações do usuário de um arquivo txt(temporariamente)
 		 * utilizar uma API de bando de dados depois
@@ -16,17 +19,16 @@ public abstract class Main{
 		 // Talvez isso mude se o escopo de cada operação for redirecionado para um método à parte
 		Scanner sc = new Scanner(System.in);
 		File diretorioDB = new File(System.getProperty("user.dir") + "\\database\\"); //caminho absoluto
-		Usuario usuarioTeste = new Usuario("naly", "admin", "123");
+		Usuario usuarioTeste = new Usuario("nally", "admin", "123");
 
 	    System.out.printf("%n========== BIBLIOTECA PESSOAL ==========%n" +
 		                  "|           Seja bem-vindo(a)!         |%n" +
 		                  "========================================%n");
 		System.out.println();
+		System.out.println(diretorioDB);
 
 		int opcaoMenu;
 		String nomeEstante, nomeUsuario;
-		Livro livro;
-		Artigo artigo;
 			do{
 				menuPrincipal();
 				opcaoMenu = sc.nextInt();
@@ -38,11 +40,11 @@ public abstract class Main{
 		        case 0:
 					System.out.println("Programa encerrado!");
 		            break;
-
-		        case 1:// Tratar Estantes com o mesmo nome 
+					
+				case 1:// Tratar Estantes com o mesmo nome 
 					boolean arquivo;
 					System.out.printf("Digite o nome da Estante: ");
-                    nomeEstante = sc.nextLine();
+					nomeEstante = sc.nextLine();
 					
 					arquivo = verificarPasta(diretorioDB, nomeEstante);
 					if (arquivo){
@@ -53,8 +55,8 @@ public abstract class Main{
 					}
 					else 
 						System.out.println("Erro ao criar Estante.");
-		
-					break;
+	
+				break;
 
 		        case 2:
 					System.out.printf("Digite o nome da estante que deseja visualizar: ");
@@ -63,84 +65,125 @@ public abstract class Main{
 					break;
 
 		        case 3: 
+					String nomeC3;
 					System.out.printf("Digite o nome da estante que desaja remover: ");
-					nomeEstante = sc.nextLine();
-					usuarioTeste.getListaEstantes().remove(usuarioTeste.buscarEstante(nomeEstante));
+					nomeC3 = sc.nextLine();
+					usuarioTeste.getListaEstantes().remove(usuarioTeste.buscarEstante(nomeC3));
 					break;
 
-			case 4:
-					System.out.printf("O que deseja adicionar? %n" + 
-									  "[1] - Livro%n" + 
-									  "[2] - Texto%n");
-  					opcaoMenu = sc.nextInt();
-  					sc.nextLine();
-					if (opcaoMenu == 1){ 
-						livro = Livro.criarLivro(sc);
-						if (livro != null){
-							usuarioTeste.addTexto("Todos", livro); //arrumar esse metodo
-							System.out.println(livro + livro.toString());
-							escreverDados(diretorioDB, usuarioTeste.getNomeExibicao(), "Todos", livro.toString());
-						}
-						else
-							System.out.println("Erro ao criar livro.");
-					}
-					if (opcaoMenu == 2){
-						artigo = Artigo.criarArtigo(sc);
+				case 4:
+					/*Adicionar novas forma de criação de livro, criação mais simples, apenas com o nome e o autor
+					  Fazer uma verificação após cada entrada ser lida, se o usuário digitar 0, a operação é finalizada*/ 
+					// inicializar as variáveis com seus valores padrão
+					String nomeTexto, nomeAutor, nomeEditora, nomeRevista, nomeGenero, palavras, dataPublicacao, dataInicio, dataTermino;
+					ArrayList<String> nomeAutores = new ArrayList<String>();
+					ArrayList<String> palavrasChave = new ArrayList<String>();
+					int numEdicao, numPaginas;
+					int opcao, foiLido, foiIniciado;
+					Texto texto = null;
 
-						if (artigo != null){
-							usuarioTeste.addTexto("Todos", artigo);
-							System.out.println(artigo);
+					System.out.println("Deseja adicionar um Livro ou um Artigo?" + "%n1. Livro%n2. Artigo%n:");
+					do {
+						opcao = sc.nextInt();
+						sc.nextLine(); // Remover o \n do buffer
+					} while (opcao != 1 || opcao != 2);
+					System.out.printf("Digite o nome do Texto que deseja adicionar: ");
+					nomeTexto = sc.nextLine();
+					System.out.printf("Digite o nome do Autor(es) do Texto. Separe por ',': ");
+					nomeAutor = sc.nextLine();		
+					sc.nextLine(); // Remover o \n do buffer
+					System.out.printf("Digite a Data de Publicacao do Texto(dd/mm/aa): ");
+					dataPublicacao = sc.nextLine();
+					System.out.printf("Digite o Número de Páginas do Texto: ");
+					numPaginas = sc.nextInt();
+					if(opcao == 1){
+						System.out.printf("Digite o nome da Editora: ");
+						nomeEditora = sc.nextLine();
+						System.out.printf("Qual o numero da edicao? ");
+						numEdicao = sc.nextInt();
+						sc.nextLine(); // Remover o \n do buffer
+						System.out.printf("Qual é o gênero do livro? : ");
+						nomeGenero = sc.nextLine();
+						// adicionando a String de nome dos autores no ArrayList
+						for(String s : nomeAutor.split(Texto.SEPARADOR_STRING)){
+							nomeAutores.add(s);
 						}
-						else
-							System.out.println("Erro ao criar artigo.");
-					}
-					else 
-						System.out.println("Opcao Invalida, digite 1 ou 2");
-
-					break;
-					
+						texto = new Livro(nomeTexto, nomeAutores, dataPublicacao, numPaginas, nomeEditora, numEdicao, nomeGenero);
+					} else if(opcao == 2){
+						System.out.printf("Digite o nome da Revista: ");
+						nomeRevista = sc.nextLine(); 
+						System.out.printf("Quais sao as palavras chave? Separe por ',': ");
+						palavras = sc.nextLine(); 
+						// adicionando a String de palavras-chave no ArrayList
+						for(String s : palavras.split(Texto.SEPARADOR_STRING)){
+							palavrasChave.add(s);
+						}
+						texto = new Artigo(nomeTexto, nomeAutores, dataPublicacao, numPaginas, nomeRevista, palavrasChave);
+					} 
+					// leitura de datas
+					System.out.println("O Texto foi iniciado?"+"%n1. Sim%n2. Não%n:");
+					foiIniciado = sc.nextInt();
+					sc.nextLine(); // Remover o \n do buffer
+					if(foiIniciado == 1){
+						texto.setFoiIniciado(true);
+						System.out.println("O Texto foi lido?"+"%n1. Sim%n2. Não%n:");
+						foiLido = sc.nextInt();
+						sc.nextLine(); // Remover o \n do buffer
+						System.out.println("Digite a data que começou a ler(dd/mm/aa):");
+						dataInicio = sc.nextLine();
+						texto.setInicioLeitura(dataInicio);
+						if(foiLido == 1){
+							texto.setFoiLido(true);
+							System.out.println("Digite a data que terminou de ler(dd/mm/aa):");
+							dataTermino = sc.nextLine(); 
+							texto.setTerminoLeitura(dataTermino);
+						}
+					}	
+					break;		
 		        case 5:
-		            //livro.visualizar
+		            System.out.printf("Digite o nome do livro que deseja visualizar: ");
+					nomeTexto = sc.nextLine();
+
 					break;
-		        case 6: 
-		            int encontrou = 0;
-		            System.out.println("Digite o nome do texto que desejas excluir: ");
-		            String nome = sc.nextLine();
-		            for (Estante estante : usuarioTeste.getListaEstantes()){
-		                for (Texto texto : estante.getListaTextos()){
-		                    if (nome.compareTo(texto.getNomeTexto()) == 0){
-		                        encontrou = 1;
-		                        
-		                        System.out.println("Texto encontrado na estante " + estante.getNome());
-		                        
-		                        estante.removerTexto(texto);
-		                        
-		                        System.out.println("Texto excluido!");
-		                    }
-		                }
-		            }
-		            if (encontrou == 0){
-		                System.out.println("Texto nao encontrado");
-		            }
+				case 6: 
+					int encontrou = 0;
+					System.out.println("Digite o nome do texto que desejas excluir: ");
+					String nome = sc.nextLine();
+					for (Estante estante : usuarioTeste.getListaEstantes()){
+						for (Texto t : estante.getListaTextos()){
+							if (nome.compareTo(t.getNomeTexto()) == 0){
+								encontrou = 1;
+								
+								System.out.println("Texto encontrado na estante " + estante.getNome());
+								
+								estante.removerTexto(t);
+								
+								System.out.println("Texto excluido!");
+							}
+						}
+					}
+					if (encontrou == 0){
+						System.out.println("Texto nao encontrado");
+					}
 					break;
 		        case 7:
 		           		System.out.printf("Estantes de %s", usuarioTeste.getNomeExibicao());
 					for (Estante estante : usuarioTeste.getListaEstantes()) {
 						System.out.printf("-> %s:", estante.getNome());
-						for (Texto texto : estante.getListaTextos()) {
-							System.out.printf("- %s", texto.getNomeTexto());
+						for (Texto t : estante.getListaTextos()) {
+							System.out.printf("- %s", t.getNomeTexto());
 						}
 					}
 					break;
 		        case 8: 
 		            //pesquisar por: nome, num de páginas, autor, editora, revista;
-					break;
+					break; 
 				case 9:
 					boolean pasta;
 					// Tratar Estantes com o mesmo nome 
 					// Verificar se a estante realmente foi adicionada antes de exibir a mesagem de "Estante adicionada com sucesso"
 					System.out.printf("Digite o nome do Usuario: ");
-                    nomeUsuario = sc.nextLine();
+					nomeUsuario = sc.nextLine();
 					
 					pasta = verificarPasta(diretorioDB, nomeUsuario);
 					if (pasta){
@@ -154,7 +197,6 @@ public abstract class Main{
 						System.out.println("Erro ao criar Estante.");
 
 					break;
-
 				default:
 					System.out.println("Opcao Invalida!");
 					break;
