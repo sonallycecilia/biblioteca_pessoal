@@ -20,7 +20,6 @@ public abstract class Main{
 	    System.out.printf("%n========== BIBLIOTECA PESSOAL ==========%n" +
 		                  "|           Seja bem-vindo(a)!         |%n" +
 		                  "========================================%n");
-		System.out.println();
 
 		int opcaoMenu;
 		String nomeEstante, nomeUsuario;
@@ -42,7 +41,7 @@ public abstract class Main{
 					boolean arquivo;
 					System.out.printf("Digite o nome da Estante: ");
                     nomeEstante = sc.nextLine();
-					
+					//teste
 					arquivo = verificarPasta(diretorioDB, nomeEstante);
 					if (arquivo){
 						criarArquivo(diretorioDB, usuarioTeste.getNomeExibicao(), nomeEstante);
