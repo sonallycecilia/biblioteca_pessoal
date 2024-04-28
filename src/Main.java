@@ -1,5 +1,3 @@
-
-
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.BufferedWriter;
@@ -22,10 +20,9 @@ public abstract class Main{
 		Usuario usuarioTeste = new Usuario("nally", "admin", "123");
 
 	    System.out.printf("%n========== BIBLIOTECA PESSOAL ==========%n" +
-		                  "|           Seja bem-vindo(a)!         |%n" +
+		                  "=          Seja bem-vindo(a)!          =%n" +
 		                  "========================================%n");
 		System.out.println();
-		System.out.println(diretorioDB);
 
 		int opcaoMenu;
 		String nomeEstante, nomeUsuario;
