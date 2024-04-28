@@ -1,8 +1,9 @@
+package classes;
 
 
 import java.util.ArrayList;
 
-abstract class Texto {
+public abstract class Texto {
     // Atributos
     public static final String SEPARADOR_STRING = ",";
     private String nomeTexto;
