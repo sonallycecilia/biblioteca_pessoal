@@ -1,3 +1,4 @@
+package classes;
 abstract class Texto {
     // Atributos
     private String nomeTexto;
