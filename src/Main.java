@@ -1,5 +1,12 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import classes.Artigo;
+import classes.Estante;
+import classes.Livro;
+import classes.Texto;
+import classes.Usuario;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
