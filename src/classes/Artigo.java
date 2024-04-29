@@ -1,6 +1,9 @@
 package classes;
 
+import java.util.Date;
 import java.util.ArrayList;
+
+import classes.enums.StatusTexto;
 
 public class Artigo extends Texto {
     // atributos subclasse
@@ -8,27 +11,22 @@ public class Artigo extends Texto {
     private ArrayList <String> palavrasChave;
 
     // Construtor completo
-    public Artigo(String nomeTexto, ArrayList<String> nomeAutores, String dataPublicacao, String inicioLeitura, String terminoLeitura, int numPaginas, boolean foiLido, boolean foiIniciado, String nomeRevista, ArrayList<String> palavrasChave) {
-        super(nomeTexto, nomeAutores, dataPublicacao, inicioLeitura, terminoLeitura, numPaginas, foiLido, foiIniciado);
+    public Artigo(String nomeTexto, ArrayList<String> nomeAutores, Date dataPublicacao, Date inicioLeitura, Date terminoLeitura, int numPaginas, StatusTexto status, String nomeRevista, ArrayList<String> palavrasChave) {
+        super(nomeTexto, nomeAutores, dataPublicacao, inicioLeitura, terminoLeitura, numPaginas, status);
         this.nomeRevista = nomeRevista;
         this.palavrasChave = palavrasChave;
     }
     // Construtor sem inicio/termino de leitura e sem foiLido ou foiIniciado
-    public Artigo(String nomeTexto, ArrayList<String> nomeAutores, String dataPublicacao, int numPaginas, String nomeRevista, ArrayList<String> palavrasChave){
-        super(nomeTexto, nomeAutores, dataPublicacao, null, null, numPaginas, false, false);
+    public Artigo(String nomeTexto, ArrayList<String> nomeAutores, Date dataPublicacao, int numPaginas, StatusTexto status, String nomeRevista, ArrayList<String> palavrasChave){
+        super(nomeTexto, nomeAutores, dataPublicacao, numPaginas, status);
         this.nomeRevista = nomeRevista;
         this.palavrasChave = palavrasChave;
     }
     // Construtor sem data do término da leitura
-    public Artigo(String nomeTexto, ArrayList<String> nomeAutores, String dataPublicacao, String inicioLeitura, int numPaginas, boolean foiLido, boolean foiIniciado, String nomeRevista, ArrayList<String> palavrasChave) {
-        super(nomeTexto, nomeAutores, dataPublicacao, inicioLeitura, null, numPaginas, foiLido, foiIniciado);
+    public Artigo(String nomeTexto, ArrayList<String> nomeAutores, Date dataPublicacao, Date inicioLeitura, int numPaginas, StatusTexto status, String nomeRevista, ArrayList<String> palavrasChave) {
+        super(nomeTexto, nomeAutores, dataPublicacao, inicioLeitura, numPaginas, status);
         this.nomeRevista = nomeRevista;
-        this.palavrasChave = palavrasChave;
-    }
-    // Construtor sem data do Início e Término da leitura
-    public Artigo(String nomeTexto, ArrayList<String> nomeAutores, String dataPublicacao, int numPaginas, boolean foiLido, boolean foiIniciado, String nomeRevista, ArrayList<String> palavrasChave) {
-        super(nomeTexto, nomeAutores, dataPublicacao, null, null, numPaginas, foiLido, foiIniciado);
-        this.nomeRevista = nomeRevista;
+        
         this.palavrasChave = palavrasChave;
     }
     // Métodos

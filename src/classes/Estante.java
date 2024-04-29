@@ -1,7 +1,7 @@
 package classes;
 
-
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 public class Estante {
@@ -60,8 +60,8 @@ public class Estante {
 						"%nInicio da leitura: " + texto.getInicioLeitura() + 
 						"%nTermino da leitura: " + texto.getTerminoLeitura() + 
 						"%nNúmero de páginas: " + texto.getNumPaginas() + 
-						"%nFoi lido: " + texto.getFoiLido() + 
-						"%nFoi iniciado: " + texto.getFoiIniciado());
+						"%nStatus: " +
+                        texto.getStatus());
 						encontrou = 1;
 				
 				//return texto;
@@ -84,8 +84,8 @@ public class Estante {
 						"%nInicio da leitura: " + texto.getInicioLeitura() + 
 						"%nTermino da leitura: " + texto.getTerminoLeitura() + 
 						"%nNúmero de páginas: " + texto.getNumPaginas() + 
-						"%nFoi lido: " + texto.getFoiLido() + 
-						"%nFoi iniciado: " + texto.getFoiIniciado());
+						"%nStatus: " +
+                        texto.getStatus());
 						encontrou = 1;
 				
 				//return texto;
@@ -97,7 +97,7 @@ public class Estante {
         }
     }
     
-    public void filtrarPublicacao(String publicacao){
+    public void filtrarPublicacao(Date publicacao){
         int encontrou = 0;
         for (Texto texto : listaTextos){
             if (publicacao.compareTo(texto.getDataPublicacao()) == 0){
@@ -108,8 +108,8 @@ public class Estante {
 						"%nInicio da leitura: " + texto.getInicioLeitura() + 
 						"%nTermino da leitura: " + texto.getTerminoLeitura() + 
 						"%nNúmero de páginas: " + texto.getNumPaginas() + 
-						"%nFoi lido: " + texto.getFoiLido() + 
-						"%nFoi iniciado: " + texto.getFoiIniciado());
+						"%nStatus: " +
+                        texto.getStatus());
 						encontrou = 1;
 				
 				//return texto;
@@ -121,7 +121,7 @@ public class Estante {
         }
     }
     
-     public void filtrarInicioLeitura(String inicioLeitura){
+     public void filtrarInicioLeitura(Date inicioLeitura){
         int encontrou = 0;
         for (Texto texto : listaTextos){
             if (inicioLeitura.compareTo(texto.getInicioLeitura()) == 0){
@@ -132,8 +132,8 @@ public class Estante {
 						"%nInicio da leitura: " + texto.getInicioLeitura() + 
 						"%nTermino da leitura: " + texto.getTerminoLeitura() + 
 						"%nNúmero de páginas: " + texto.getNumPaginas() + 
-						"%nFoi lido: " + texto.getFoiLido() + 
-						"%nFoi iniciado: " + texto.getFoiIniciado());
+						"%nStatus: " +
+                        texto.getStatus());
 						encontrou = 1;
 				
 				//return texto;
@@ -145,11 +145,10 @@ public class Estante {
         }
     }
     
-         public void filtrarTerminoLeitura(String terminoLeitura){
+         public void filtrarTerminoLeitura(Date terminoLeitura){
         int encontrou = 0;
         for (Texto texto : listaTextos){
-            String terminoLeituraObj = texto.getTerminoLeitura();
-            if (terminoLeitura.compareTo(terminoLeituraObj) == 0){
+            if (terminoLeitura.compareTo(texto.getTerminoLeitura()) == 0){
                 System.out.println("Texto encontrado!%n");
                 System.out.printf("Nome: " + texto.getNomeTexto() + 
 						"%nAutor: " + texto.getNomeAutor() + 
@@ -157,8 +156,8 @@ public class Estante {
 						"%nInicio da leitura: " + texto.getInicioLeitura() + 
 						"%nTermino da leitura: " + texto.getTerminoLeitura() + 
 						"%nNúmero de páginas: " + texto.getNumPaginas() + 
-						"%nFoi lido: " + texto.getFoiLido() + 
-						"%nFoi iniciado: " + texto.getFoiIniciado());
+						"%nStatus: " +
+                        texto.getStatus());
 						encontrou = 1;
 				
 				//return texto;
@@ -181,8 +180,8 @@ public class Estante {
 						"%nInicio da leitura: " + texto.getInicioLeitura() + 
 						"%nTermino da leitura: " + texto.getTerminoLeitura() + 
 						"%nNúmero de páginas: " + texto.getNumPaginas() + 
-						"%nFoi lido: " + texto.getFoiLido() + 
-						"%nFoi iniciado: " + texto.getFoiIniciado());
+						"%nStatus: " +
+                        texto.getStatus());
 						encontrou = 1;
 				
 				//return texto;
@@ -194,10 +193,10 @@ public class Estante {
         }
     }
     
-    public void filtrar(boolean foiLido){ //esse metodo vai ser sobrecarregado junto com o de filtrar pelo numero de paginas
+    public void filtrarLido(){ //esse metodo vai ser sobrecarregado junto com o de filtrar pelo numero de paginas
         int encontrou = 0;
         for (Texto texto : listaTextos){
-            if (texto.getFoiLido() == foiLido){
+            if (texto.getStatus().ordinal() == 2){
                 System.out.println("%nTexto encontrado!%n");
                 System.out.printf("Nome: " + texto.getNomeTexto() + 
 						"%nAutor: " + texto.getNomeAutor() + 
@@ -205,8 +204,8 @@ public class Estante {
 						"%nInicio da leitura: " + texto.getInicioLeitura() + 
 						"%nTermino da leitura: " + texto.getTerminoLeitura() + 
 						"%nNúmero de páginas: " + texto.getNumPaginas() + 
-						"%nFoi lido: " + texto.getFoiLido() + 
-						"%nFoi iniciado: " + texto.getFoiIniciado());
+						"%nStatus: " +
+                        texto.getStatus());
 						encontrou = 1;
 				
 				//return texto;
@@ -218,10 +217,10 @@ public class Estante {
         }
     }
     
-    public void filtrarFoiIniciado(boolean foiIniciado){ //esse metodo vai ser sobrecarregado junto com o de filtrar pelo numero de paginas
+    public void filtrarLendo(){ //esse metodo vai ser sobrecarregado junto com o de filtrar pelo numero de paginas
         int encontrou = 0;
         for (Texto texto : listaTextos){
-            if (texto.getFoiIniciado() == foiIniciado){
+            if (texto.getStatus().ordinal() == 1){
                 System.out.println("%nTexto encontrado!%n");
                 System.out.printf("Nome: " + texto.getNomeTexto() + 
 						"%nAutor: " + texto.getNomeAutor() + 
@@ -229,8 +228,8 @@ public class Estante {
 						"%nInicio da leitura: " + texto.getInicioLeitura() + 
 						"%nTermino da leitura: " + texto.getTerminoLeitura() + 
 						"%nNúmero de páginas: " + texto.getNumPaginas() + 
-						"%nFoi lido: " + texto.getFoiLido() + 
-						"%nFoi iniciado: " + texto.getFoiIniciado());
+						"%nStatus: " +
+                        texto.getStatus());
 						encontrou = 1;
 				
 				//return texto;
