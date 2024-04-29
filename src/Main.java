@@ -54,7 +54,7 @@ public abstract class Main{
 					System.out.printf("Digite o nome da Estante: ");
 					nomeEstante = sc.nextLine();
 					
-					arquivo = verificarPasta(diretorioDB, nomeEstante); //verificando se existe estante
+					arquivo = verificarPastaDoUsuario(diretorioDB, nomeEstante); //verificando se existe estante
 					if (arquivo){
 						criarArquivo(diretorioDB, usuarioTeste.getNomeExibicao(), nomeEstante);
 						usuarioTeste.addEstante(new Estante(nomeEstante));
@@ -67,12 +67,14 @@ public abstract class Main{
 				break;
 
 		        case 2:
+					// Arrumar isso aqui, ta prestando não
 					System.out.printf("Digite o nome da estante que deseja visualizar: ");
 					nomeEstante = sc.nextLine();
 					usuarioTeste.buscarEstante(nomeEstante).mostrarTextos();
 					break;
 
 		        case 3: 
+					// Arrumar isso aqui, ta prestando não
 					String nomeC3;
 					System.out.printf("Digite o nome da estante que desaja remover: ");
 					nomeC3 = sc.nextLine();
@@ -157,6 +159,8 @@ public abstract class Main{
 							texto.setTerminoLeitura(dataTermino);
 						}
 					}	
+
+					escreverDados(diretorioDB, usuarioTeste.getNomeExibicao(), "Todos", texto.toString());
 					break;		
 		        
 					case 5:
@@ -165,6 +169,7 @@ public abstract class Main{
 
 					break;
 				case 6: 
+					// Apagar as informações do txt
 					int encontrou = 0;
 					System.out.println("Digite o nome do texto que desejas excluir: ");
 					String nome = sc.nextLine();
@@ -204,7 +209,7 @@ public abstract class Main{
 					System.out.printf("Digite o nome do Usuario: ");
 					nomeUsuario = sc.nextLine();
 					
-					pasta = verificarPasta(diretorioDB, nomeUsuario);
+					pasta = verificarPastaDoUsuario(diretorioDB, nomeUsuario);
 					if (pasta){
 						pasta = new File(diretorioDB, nomeUsuario).mkdir();
 						usuarioTeste.addEstante(new Estante(nomeUsuario)); //verificar esse metodo depois
@@ -243,7 +248,7 @@ public abstract class Main{
 	}
 
 	//criando e verificando pasta da estante
-	public static boolean verificarPasta(File diretorio, String nome){ //:: referencia metodos sem invocalos (tipo arbitrário: Tipo::método), filtra os arquivos dos listFiles atraves de pastas
+	public static boolean verificarPastaDoUsuario(File diretorio, String nome){ //:: referencia metodos sem invocalos (tipo arbitrário: Tipo::método), filtra os arquivos dos listFiles atraves de pastas
 		File[] pastas = diretorio.listFiles(File::isDirectory);
 		for (File p : pastas){
 				if (p.getName() == nome){
@@ -282,7 +287,7 @@ public abstract class Main{
 
 	//escrever dados no arquivo
 	public static void escreverDados(File diretorio, String usuario, String estante, String dados){
-		String path = diretorio.getName() + "\\" + usuario + "\\" + estante;
+		String path = diretorio.getName() + "\\" + usuario + "\\" + estante + ".txt";
 		try (BufferedWriter arquivo = new BufferedWriter(new FileWriter(path, true))){
 			arquivo.write(dados);
 			arquivo.newLine();
