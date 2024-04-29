@@ -1,5 +1,7 @@
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
@@ -70,7 +72,7 @@ public abstract class Main{
 					// Arrumar isso aqui, ta prestando não
 					System.out.printf("Digite o nome da estante que deseja visualizar: ");
 					nomeEstante = sc.nextLine();
-					usuarioTeste.buscarEstante(nomeEstante).mostrarTextos();
+					System.out.printf(extrairDados(diretorioDB, usuarioTeste.getNomeExibicao(), nomeEstante));
 					break;
 
 		        case 3: 
@@ -297,5 +299,21 @@ public abstract class Main{
 			System.out.println("Erro ao salvar informações.");
 			e.printStackTrace(); //IO exception é gerada as vezes ao tentar abrir um arquivo txt atraves do scanner, por isso temos que adicionar uma execeção, ela imprime o tipo de erro
 		}
+	}
+
+	public static String extrairDados(File diretorio, String usuario, String estante) {
+		String path = diretorio.getName() + "\\" + usuario + "\\" + estante + ".txt";
+		StringBuilder dados = new StringBuilder();
+		
+		try (BufferedReader arquivo = new BufferedReader(new FileReader(path))) {
+			String linha;
+			while ((linha = arquivo.readLine()) != null) {
+				dados.append(linha).append("\n");
+			}
+		} catch (IOException e) {
+			System.out.println("Erro ao extrair informações");
+			e.printStackTrace();
+		}
+		return dados.toString();
 	}
 }
