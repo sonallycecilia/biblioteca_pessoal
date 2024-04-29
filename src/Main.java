@@ -1,4 +1,11 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 import classes.Artigo;
@@ -6,15 +13,11 @@ import classes.Estante;
 import classes.Livro;
 import classes.Texto;
 import classes.Usuario;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import classes.enums.StatusTexto;
 
 // Fazer o javadoc
 public abstract class Main{
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 		
 		/*Criação do usuário
 		 * puxar dados com as informações do usuário de um arquivo txt(temporariamente)
@@ -22,9 +25,10 @@ public abstract class Main{
 		 * Vou criar um usuario para fins de teste
 		 */
 		 // Talvez isso mude se o escopo de cada operação for redirecionado para um método à parte
+		SimpleDateFormat padrao = new SimpleDateFormat("dd/MM/yyyy");
 		Scanner sc = new Scanner(System.in);
 		File diretorioDB = new File(System.getProperty("user.dir") + "\\database\\"); //caminho absoluto
-		Usuario usuarioTeste = new Usuario("nally", "admin", "123");
+		Usuario usuarioTeste = new Usuario("Naly", "admin", "123");
 
 	    System.out.printf("%n========== BIBLIOTECA PESSOAL ==========%n" +
 		                  "=          Seja bem-vindo(a)!          =%n" +
@@ -50,7 +54,7 @@ public abstract class Main{
 					System.out.printf("Digite o nome da Estante: ");
 					nomeEstante = sc.nextLine();
 					
-					arquivo = verificarPasta(diretorioDB, nomeEstante);
+					arquivo = verificarPastaDoUsuario(diretorioDB, nomeEstante); //verificando se existe estante
 					if (arquivo){
 						criarArquivo(diretorioDB, usuarioTeste.getNomeExibicao(), nomeEstante);
 						usuarioTeste.addEstante(new Estante(nomeEstante));
@@ -63,12 +67,14 @@ public abstract class Main{
 				break;
 
 		        case 2:
+					// Arrumar isso aqui, ta prestando não
 					System.out.printf("Digite o nome da estante que deseja visualizar: ");
 					nomeEstante = sc.nextLine();
 					usuarioTeste.buscarEstante(nomeEstante).mostrarTextos();
 					break;
 
 		        case 3: 
+					// Arrumar isso aqui, ta prestando não
 					String nomeC3;
 					System.out.printf("Digite o nome da estante que desaja remover: ");
 					nomeC3 = sc.nextLine();
@@ -79,27 +85,42 @@ public abstract class Main{
 					/*Adicionar novas forma de criação de livro, criação mais simples, apenas com o nome e o autor
 					  Fazer uma verificação após cada entrada ser lida, se o usuário digitar 0, a operação é finalizada*/ 
 					// inicializar as variáveis com seus valores padrão
-					String nomeTexto, nomeAutor, nomeEditora, nomeRevista, nomeGenero, palavras, dataPublicacao, dataInicio, dataTermino;
+					String nomeTexto, nomeAutor, nomeEditora, nomeRevista, nomeGenero, palavras;
+					Date dataPublicacao, dataInicio, dataTermino;
+					StatusTexto status;
 					ArrayList<String> nomeAutores = new ArrayList<String>();
 					ArrayList<String> palavrasChave = new ArrayList<String>();
 					int numEdicao, numPaginas;
-					int opcao, foiLido, foiIniciado;
+					int opcao;
 					Texto texto = null;
 
-					System.out.println("Deseja adicionar um Livro ou um Artigo?" + "%n1. Livro%n2. Artigo%n:");
 					do {
+						System.out.printf("Deseja adicionar um Livro ou um Artigo?" + 
+									  "%n[1] Livro" +
+									  "%n[2] Artigo: ");
 						opcao = sc.nextInt();
-						sc.nextLine(); // Remover o \n do buffer
-					} while (opcao != 1 || opcao != 2);
+					} while (opcao != 1 && opcao != 2);
+					sc.nextLine();
 					System.out.printf("Digite o nome do Texto que deseja adicionar: ");
 					nomeTexto = sc.nextLine();
 					System.out.printf("Digite o nome do Autor(es) do Texto. Separe por ',': ");
 					nomeAutor = sc.nextLine();		
-					sc.nextLine(); // Remover o \n do buffer
-					System.out.printf("Digite a Data de Publicacao do Texto(dd/mm/aa): ");
-					dataPublicacao = sc.nextLine();
+					System.out.printf("Digite a Data de Publicacao do Texto (dd/mm/aaaa): ");
+					dataPublicacao = padrao.parse(sc.nextLine());
 					System.out.printf("Digite o Número de Páginas do Texto: ");
 					numPaginas = sc.nextInt();
+
+					do {
+						System.out.printf("Qual o status do texto?" + 
+									  "%n[0] Não lido;" +
+									  "%n[1] Lendo;" +
+									  "%n[2] Lido;" +
+									  "%n[3] Abandonado" +
+									  "%n[4] Emprestado: ");
+						status = StatusTexto.values()[sc.nextInt()];
+					} while (status.ordinal() < 0 && status.ordinal() > 4);
+					sc.nextLine(); //limpando buffer
+					
 					if(opcao == 1){
 						System.out.printf("Digite o nome da Editora: ");
 						nomeEditora = sc.nextLine();
@@ -108,11 +129,14 @@ public abstract class Main{
 						sc.nextLine(); // Remover o \n do buffer
 						System.out.printf("Qual é o gênero do livro? : ");
 						nomeGenero = sc.nextLine();
+
 						// adicionando a String de nome dos autores no ArrayList
 						for(String s : nomeAutor.split(Texto.SEPARADOR_STRING)){
 							nomeAutores.add(s);
 						}
-						texto = new Livro(nomeTexto, nomeAutores, dataPublicacao, numPaginas, nomeEditora, numEdicao, nomeGenero);
+						//adicionando sem inicio e fim
+						texto = new Livro(nomeTexto, nomeAutores, dataPublicacao, numPaginas, status, nomeEditora, numEdicao, nomeGenero);
+
 					} else if(opcao == 2){
 						System.out.printf("Digite o nome da Revista: ");
 						nomeRevista = sc.nextLine(); 
@@ -122,34 +146,30 @@ public abstract class Main{
 						for(String s : palavras.split(Texto.SEPARADOR_STRING)){
 							palavrasChave.add(s);
 						}
-						texto = new Artigo(nomeTexto, nomeAutores, dataPublicacao, numPaginas, nomeRevista, palavrasChave);
+						texto = new Artigo(nomeTexto, nomeAutores, dataPublicacao, numPaginas, status, nomeRevista, palavrasChave);
 					} 
-					// leitura de datas
-					System.out.println("O Texto foi iniciado?"+"%n1. Sim%n2. Não%n:");
-					foiIniciado = sc.nextInt();
-					sc.nextLine(); // Remover o \n do buffer
-					if(foiIniciado == 1){
-						texto.setFoiIniciado(true);
-						System.out.println("O Texto foi lido?"+"%n1. Sim%n2. Não%n:");
-						foiLido = sc.nextInt();
-						sc.nextLine(); // Remover o \n do buffer
+
+					if((status.ordinal()) != 0){ //se foi iniciado
 						System.out.println("Digite a data que começou a ler(dd/mm/aa):");
-						dataInicio = sc.nextLine();
+						dataInicio = padrao.parse(sc.nextLine());
 						texto.setInicioLeitura(dataInicio);
-						if(foiLido == 1){
-							texto.setFoiLido(true);
+						if((status.ordinal()) == 2){ //se foi lido
 							System.out.println("Digite a data que terminou de ler(dd/mm/aa):");
-							dataTermino = sc.nextLine(); 
+							dataTermino = padrao.parse(sc.nextLine()); 
 							texto.setTerminoLeitura(dataTermino);
 						}
 					}	
+
+					escreverDados(diretorioDB, usuarioTeste.getNomeExibicao(), "Todos", texto.toString());
 					break;		
-		        case 5:
+		        
+					case 5:
 		            System.out.printf("Digite o nome do livro que deseja visualizar: ");
 					nomeTexto = sc.nextLine();
 
 					break;
 				case 6: 
+					// Apagar as informações do txt
 					int encontrou = 0;
 					System.out.println("Digite o nome do texto que desejas excluir: ");
 					String nome = sc.nextLine();
@@ -189,7 +209,7 @@ public abstract class Main{
 					System.out.printf("Digite o nome do Usuario: ");
 					nomeUsuario = sc.nextLine();
 					
-					pasta = verificarPasta(diretorioDB, nomeUsuario);
+					pasta = verificarPastaDoUsuario(diretorioDB, nomeUsuario);
 					if (pasta){
 						pasta = new File(diretorioDB, nomeUsuario).mkdir();
 						usuarioTeste.addEstante(new Estante(nomeUsuario)); //verificar esse metodo depois
@@ -223,11 +243,12 @@ public abstract class Main{
 						"[8] - Pesquisar;%n" +
 						"[9] - Criar Usuário;%n" +
 						"[0] - Sair;%n");
-		System.out.print("Opcao: ");
+		System.out.println("=========================================");
+		System.out.print("OPÇÃO: ");
 	}
 
 	//criando e verificando pasta da estante
-	public static boolean verificarPasta(File diretorio, String nome){ //:: referencia metodos sem invocalos (tipo arbitrário: Tipo::método), filtra os arquivos dos listFiles atraves de pastas
+	public static boolean verificarPastaDoUsuario(File diretorio, String nome){ //:: referencia metodos sem invocalos (tipo arbitrário: Tipo::método), filtra os arquivos dos listFiles atraves de pastas
 		File[] pastas = diretorio.listFiles(File::isDirectory);
 		for (File p : pastas){
 				if (p.getName() == nome){
@@ -266,7 +287,7 @@ public abstract class Main{
 
 	//escrever dados no arquivo
 	public static void escreverDados(File diretorio, String usuario, String estante, String dados){
-		String path = diretorio.getName() + "\\" + usuario + "\\" + estante;
+		String path = diretorio.getName() + "\\" + usuario + "\\" + estante + ".txt";
 		try (BufferedWriter arquivo = new BufferedWriter(new FileWriter(path, true))){
 			arquivo.write(dados);
 			arquivo.newLine();

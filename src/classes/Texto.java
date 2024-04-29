@@ -1,23 +1,23 @@
 package classes;
 
-
 import java.util.ArrayList;
+import java.util.Date;
+
+import classes.enums.StatusTexto;
 
 public abstract class Texto {
     // Atributos
     public static final String SEPARADOR_STRING = ",";
     private String nomeTexto;
     private ArrayList<String> nomeAutores;
-    private String dataPublicacao;
+    private Date dataPublicacao;
     private int numPaginas;
-    private String inicioLeitura;
-    private String terminoLeitura;
-        // Transformar essas infos num Enum.
-    private boolean foiLido; // Para entrar no Obj. Estante de livros "Lidos"
-    private boolean foiIniciado; // Para entrar no Obj. Estante de livros "Lendo Agora"
-    
+    private Date inicioLeitura;
+    private Date terminoLeitura;
+    private StatusTexto status;
+
     // Contrutor com todas os atributos
-    public Texto(String nomeTexto, ArrayList<String> nomeAutores, String dataPublicacao, String inicioLeitura, String terminoLeitura, int numPaginas, boolean foiLido, boolean foiIniciado){
+    public Texto(String nomeTexto, ArrayList<String> nomeAutores, Date dataPublicacao, Date inicioLeitura, Date terminoLeitura, int numPaginas, StatusTexto status){
         // Tratamento de Erros depois.
         this.nomeTexto = nomeTexto; // Padronizar Strings de nomes. Cada inicial maiúscula e o resto minúsculo
         this.nomeAutores = nomeAutores;  
@@ -25,9 +25,26 @@ public abstract class Texto {
         this.inicioLeitura = inicioLeitura;
         this.terminoLeitura = terminoLeitura;
         this.numPaginas = numPaginas; // Número de páginas negativa. Avisar ao usuário que o número de páginas foi negativo, caso seja, atribuir 0 ao número da páginas
-        this.foiLido = foiLido;
-        this.foiIniciado = foiIniciado;
-        
+        this.status = status;
+    }
+
+    //sem inicio e fim = nao li
+    public Texto(String nomeTexto, ArrayList<String> nomeAutores, Date dataPublicacao, int numPaginas, StatusTexto status){
+        this.nomeTexto = nomeTexto;
+        this.nomeAutores = nomeAutores;  
+        this.dataPublicacao = dataPublicacao;
+        this.numPaginas = numPaginas;
+        this.status = status;
+    }
+
+    //lendo, sem fim de leitura
+    public Texto(String nomeTexto, ArrayList<String> nomeAutores, Date dataPublicacao, Date inicioLeitura, int numPaginas, StatusTexto status){
+        this.nomeTexto = nomeTexto; 
+        this.nomeAutores = nomeAutores;  
+        this.dataPublicacao = dataPublicacao;
+        this.inicioLeitura = inicioLeitura;
+        this.numPaginas = numPaginas; 
+        this.status = status;
     }
 
     // Métodos
@@ -42,9 +59,8 @@ public abstract class Texto {
 
     @Override
     public String toString(){
-        return getNomeTexto() + " | " + getNomeAutor() + " | " + getDataPublicacao() + 
-               " | " + getInicioLeitura() + " | " + getTerminoLeitura() + " | " + getNumPaginas() + 
-               " | " + getFoiLido() + " | " +  getFoiIniciado() + " | ";
+        return getNomeTexto() + " | " + getNomeAutor() + " | " + dataPublicacao.toString() + 
+               " | " + inicioLeitura.toString() + " | " + terminoLeitura.toString() + " | " + getNumPaginas() + " | " + status.name();
     }
 
     public void lerTexto(){} // Utilizar uma API externa para conseguir ler PDF's em java
@@ -61,23 +77,22 @@ public abstract class Texto {
     public void setNomeAutor(ArrayList<String> nomeAutores) {
         this.nomeAutores = nomeAutores;
     }
-    public String getDataPublicacao() {
+    public Date getDataPublicacao(){
         return dataPublicacao;
     }
-    public void setDataPublicacao(String dataPublicacao) {
-        this.dataPublicacao = dataPublicacao;
-    }
-    public String getInicioLeitura() {
+    public Date getInicioLeitura(){
         return inicioLeitura;
     }
-    public void setInicioLeitura(String inicioLeitura) {
-        this.inicioLeitura = inicioLeitura;
+    public void setInicioLeitura(Date inicioLeitura){
+        this.inicioLeitura = inicioLeitura;  
     }
-    public String getTerminoLeitura() {
-        return terminoLeitura;
-    }
-    public void setTerminoLeitura(String terminoLeitura) {
+
+    public void setTerminoLeitura(Date terminoLeitura){
         this.terminoLeitura = terminoLeitura;
+    }
+
+    public Date getTerminoLeitura(){
+        return terminoLeitura;
     }
     public int getNumPaginas() {
         return numPaginas;
@@ -85,17 +100,8 @@ public abstract class Texto {
     public void setNumPaginas(int numPaginas) {
         this.numPaginas = numPaginas;
     }
-    public boolean getFoiLido() {
-        return foiLido;
-    }
-    public void setFoiLido(boolean foiLido) {
-        this.foiLido = foiLido;
-    } 
-    public boolean getFoiIniciado() {
-        return foiIniciado;
-    }
-    public void setFoiIniciado(boolean foiIniciado) {
-        this.foiIniciado = foiIniciado;
+    public StatusTexto getStatus(){
+        return status;
     }
     // Testes de Métodos 
     //public static void main(String[] args){}
