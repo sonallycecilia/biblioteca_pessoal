@@ -1,5 +1,7 @@
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
@@ -37,6 +39,7 @@ public abstract class Main{
 
 		int opcaoMenu;
 		String nomeEstante, nomeUsuario;
+		Estante estante = new Estante("Estante");
 			do{
 				menuPrincipal();
 				opcaoMenu = sc.nextInt();
@@ -70,7 +73,7 @@ public abstract class Main{
 					// Arrumar isso aqui, ta prestando não
 					System.out.printf("Digite o nome da estante que deseja visualizar: ");
 					nomeEstante = sc.nextLine();
-					usuarioTeste.buscarEstante(nomeEstante).mostrarTextos();
+					System.out.printf(extrairDadosArquivo(diretorioDB, usuarioTeste.getNomeExibicao(), nomeEstante));
 					break;
 
 		        case 3: 
@@ -164,37 +167,23 @@ public abstract class Main{
 					break;		
 		        
 					case 5:
+					
 		            System.out.printf("Digite o nome do livro que deseja visualizar: ");
-					nomeTexto = sc.nextLine();
+					String nome = sc.nextLine();
+					estante.filtrarNome(diretorioDB, usuarioTeste.getNomeExibicao(), "Todos", nome);
 
 					break;
 				case 6: 
-					// Apagar as informações do txt
-					int encontrou = 0;
 					System.out.println("Digite o nome do texto que desejas excluir: ");
-					String nome = sc.nextLine();
-					for (Estante estante : usuarioTeste.getListaEstantes()){
-						for (Texto t : estante.getListaTextos()){
-							if (nome.compareTo(t.getNomeTexto()) == 0){
-								encontrou = 1;
-								
-								System.out.println("Texto encontrado na estante " + estante.getNome());
-								
-								estante.removerTexto(t);
-								
-								System.out.println("Texto excluido!");
-							}
-						}
-					}
-					if (encontrou == 0){
-						System.out.println("Texto nao encontrado");
-					}
+					String nome1 = sc.nextLine();
+					estante.excluirLivro(diretorioDB, usuarioTeste.getNomeExibicao(), "Todos", nome1);
+					
 					break;
 		        case 7:
 		           		System.out.printf("Estantes de %s", usuarioTeste.getNomeExibicao());
-					for (Estante estante : usuarioTeste.getListaEstantes()) {
-						System.out.printf("-> %s:", estante.getNome());
-						for (Texto t : estante.getListaTextos()) {
+					for (Estante e : usuarioTeste.getListaEstantes()) {
+						System.out.printf("-> %s:", e.getNome());
+						for (Texto t : e.getListaTextos()) {
 							System.out.printf("- %s", t.getNomeTexto());
 						}
 					}
@@ -231,7 +220,7 @@ public abstract class Main{
 
 	//funcoes do main
 	public static void menuPrincipal(){
-		System.out.println("===============  MENU  =================");
+		System.out.println("================  MENU  ==================");
 		System.out.printf("DIGITE:%n" +
 						"[1] - Criar Nova Estante;%n" +
 						"[2] - Vizualizar Estante;%n" +
@@ -243,7 +232,7 @@ public abstract class Main{
 						"[8] - Pesquisar;%n" +
 						"[9] - Criar Usuário;%n" +
 						"[0] - Sair;%n");
-		System.out.println("=========================================");
+		System.out.println("==========================================");
 		System.out.print("OPÇÃO: ");
 	}
 
@@ -297,5 +286,21 @@ public abstract class Main{
 			System.out.println("Erro ao salvar informações.");
 			e.printStackTrace(); //IO exception é gerada as vezes ao tentar abrir um arquivo txt atraves do scanner, por isso temos que adicionar uma execeção, ela imprime o tipo de erro
 		}
+	}
+
+	public static String extrairDadosArquivo(File diretorio, String usuario, String estante) {
+		String path = diretorio.getName() + "\\" + usuario + "\\" + estante + ".txt";
+		StringBuilder dados = new StringBuilder();
+		
+		try (BufferedReader arquivo = new BufferedReader(new FileReader(path))) {
+			String linha;
+			while ((linha = arquivo.readLine()) != null) {
+				dados.append(linha).append("\n");
+			}
+		} catch (IOException e) {
+			System.out.println("Erro ao extrair informações");
+			e.printStackTrace();
+		}
+		return dados.toString();
 	}
 }
