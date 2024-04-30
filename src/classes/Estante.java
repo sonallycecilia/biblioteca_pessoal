@@ -1,8 +1,10 @@
 package classes;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -256,7 +258,45 @@ public class Estante {
             //return null; 
         }
     }
+
+    public void excluirLivro(File diretorio, String usuario, String estante, String nome){
+        String path = diretorio.getName() + "\\" + usuario + "\\" + estante + ".txt";
+        String pathTemp = diretorio.getName() + "\\" + usuario + "\\" + estante + "Temp.txt";
+        String linha;
+        boolean achou = false;
     
+        try (BufferedReader arquivo = new BufferedReader(new FileReader(path));
+             BufferedWriter arquivoTemp = new BufferedWriter(new FileWriter(pathTemp))) {
+            while (((linha = arquivo.readLine()) != null)) {
+                String[] dados = linha.split(" \\| ");
+                if (dados[0].equals(nome)){
+                    System.out.printf("Texto encontrado na estante: %s%n", estante);
+                    achou = true;
+                    continue; 
+                }
+                else{
+                    arquivoTemp.write(linha);
+                    arquivoTemp.newLine();
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao ler dados do arquivo.");
+            e.printStackTrace();
+        }
+        if (!achou){
+            System.out.println("Texto não encontrado.");
+        }
+        else{
+            File arquivoOriginal = new File(path);
+            File arquivoTemporario = new File(pathTemp);
+            if (arquivoOriginal.delete()){
+                arquivoTemporario.renameTo(arquivoOriginal);      
+            }
+            else{
+                System.out.println("Erro na substituição de arquivos.");
+            }
+        }
+    }
     // setters e getters
     public String getNome(){
         return this.nome;

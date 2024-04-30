@@ -39,6 +39,7 @@ public abstract class Main{
 
 		int opcaoMenu;
 		String nomeEstante, nomeUsuario;
+		Estante estante = new Estante("Estante");
 			do{
 				menuPrincipal();
 				opcaoMenu = sc.nextInt();
@@ -166,39 +167,23 @@ public abstract class Main{
 					break;		
 		        
 					case 5:
-					Estante estante1 = new Estante("Estante");
+					
 		            System.out.printf("Digite o nome do livro que deseja visualizar: ");
 					String nome = sc.nextLine();
-					estante1.filtrarNome(diretorioDB, usuarioTeste.getNomeExibicao(), "Todos", nome);
+					estante.filtrarNome(diretorioDB, usuarioTeste.getNomeExibicao(), "Todos", nome);
 
 					break;
 				case 6: 
-					// Apagar as informações do txt
-					int encontrou = 0;
 					System.out.println("Digite o nome do texto que desejas excluir: ");
 					String nome1 = sc.nextLine();
-					for (Estante estante : usuarioTeste.getListaEstantes()){
-						for (Texto t : estante.getListaTextos()){
-							if (nome1.compareTo(t.getNomeTexto()) == 0){
-								encontrou = 1;
-								
-								System.out.println("Texto encontrado na estante " + estante.getNome());
-								
-								estante.removerTexto(t);
-								
-								System.out.println("Texto excluido!");
-							}
-						}
-					}
-					if (encontrou == 0){
-						System.out.println("Texto nao encontrado");
-					}
+					estante.excluirLivro(diretorioDB, usuarioTeste.getNomeExibicao(), "Todos", nome1);
+					
 					break;
 		        case 7:
 		           		System.out.printf("Estantes de %s", usuarioTeste.getNomeExibicao());
-					for (Estante estante : usuarioTeste.getListaEstantes()) {
-						System.out.printf("-> %s:", estante.getNome());
-						for (Texto t : estante.getListaTextos()) {
+					for (Estante e : usuarioTeste.getListaEstantes()) {
+						System.out.printf("-> %s:", e.getNome());
+						for (Texto t : e.getListaTextos()) {
 							System.out.printf("- %s", t.getNomeTexto());
 						}
 					}

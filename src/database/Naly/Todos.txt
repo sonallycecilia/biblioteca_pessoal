@@ -1,2 +1,2 @@
-blade runner | [pkd] | Thu Feb 11 00:00:00 BRST 2016 | Tue Feb 11 00:00:00 BRT 2020 | Sat Mar 11 00:00:00 BRT 2023 | 288 | LIDO | aleph | 1 | scifi
-eu robo | [asimov] | Fri Feb 14 00:00:00 BRT 1670 | Fri Feb 11 00:00:00 BRST 2011 | Tue Mar 11 00:00:00 BRT 2014 | 304 | LIDO | aleph | 1 | scifi
+Blade Runner | [Philip Kindred Dick] | Mon Jan 01 00:00:00 BRST 1968 | Sun Jun 05 00:00:00 BRT 2022 | Wed Jun 15 00:00:00 BRT 2022 | 288 | LIDO | Aleph | 1 | Scifi
+Eu, robô | [Isaac Asimov] | Sat Jan 01 00:00:00 BRT 1972 | Wed Jul 05 00:00:00 BRT 2023 | Sun Jul 30 00:00:00 BRT 2023 | 288 | LIDO | Aleph | 1 | Scifi
