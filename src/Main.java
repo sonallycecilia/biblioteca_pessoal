@@ -72,7 +72,7 @@ public abstract class Main{
 					// Arrumar isso aqui, ta prestando não
 					System.out.printf("Digite o nome da estante que deseja visualizar: ");
 					nomeEstante = sc.nextLine();
-					System.out.printf(extrairDados(diretorioDB, usuarioTeste.getNomeExibicao(), nomeEstante));
+					System.out.printf(extrairDadosArquivo(diretorioDB, usuarioTeste.getNomeExibicao(), nomeEstante));
 					break;
 
 		        case 3: 
@@ -166,18 +166,20 @@ public abstract class Main{
 					break;		
 		        
 					case 5:
+					Estante estante1 = new Estante("Estante");
 		            System.out.printf("Digite o nome do livro que deseja visualizar: ");
-					nomeTexto = sc.nextLine();
+					String nome = sc.nextLine();
+					estante1.filtrarNome(diretorioDB, usuarioTeste.getNomeExibicao(), "Todos", nome);
 
 					break;
 				case 6: 
 					// Apagar as informações do txt
 					int encontrou = 0;
 					System.out.println("Digite o nome do texto que desejas excluir: ");
-					String nome = sc.nextLine();
+					String nome1 = sc.nextLine();
 					for (Estante estante : usuarioTeste.getListaEstantes()){
 						for (Texto t : estante.getListaTextos()){
-							if (nome.compareTo(t.getNomeTexto()) == 0){
+							if (nome1.compareTo(t.getNomeTexto()) == 0){
 								encontrou = 1;
 								
 								System.out.println("Texto encontrado na estante " + estante.getNome());
@@ -233,7 +235,7 @@ public abstract class Main{
 
 	//funcoes do main
 	public static void menuPrincipal(){
-		System.out.println("===============  MENU  =================");
+		System.out.println("================  MENU  ==================");
 		System.out.printf("DIGITE:%n" +
 						"[1] - Criar Nova Estante;%n" +
 						"[2] - Vizualizar Estante;%n" +
@@ -245,7 +247,7 @@ public abstract class Main{
 						"[8] - Pesquisar;%n" +
 						"[9] - Criar Usuário;%n" +
 						"[0] - Sair;%n");
-		System.out.println("=========================================");
+		System.out.println("==========================================");
 		System.out.print("OPÇÃO: ");
 	}
 
@@ -301,7 +303,7 @@ public abstract class Main{
 		}
 	}
 
-	public static String extrairDados(File diretorio, String usuario, String estante) {
+	public static String extrairDadosArquivo(File diretorio, String usuario, String estante) {
 		String path = diretorio.getName() + "\\" + usuario + "\\" + estante + ".txt";
 		StringBuilder dados = new StringBuilder();
 		

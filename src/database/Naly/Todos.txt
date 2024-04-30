@@ -1,1 +1,2 @@
 blade runner | [pkd] | Thu Feb 11 00:00:00 BRST 2016 | Tue Feb 11 00:00:00 BRT 2020 | Sat Mar 11 00:00:00 BRT 2023 | 288 | LIDO | aleph | 1 | scifi
+eu robo | [asimov] | Fri Feb 14 00:00:00 BRT 1670 | Fri Feb 11 00:00:00 BRST 2011 | Tue Mar 11 00:00:00 BRT 2014 | 304 | LIDO | aleph | 1 | scifi
