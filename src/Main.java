@@ -18,7 +18,6 @@ import classes.models.Livro;
 import classes.models.Texto;
 import database.mysql.DAO.UsuarioDAO;
 
-// Fazer o javadoc
 public abstract class Main{
 	public static void main(String[] args) throws ParseException {
 		
