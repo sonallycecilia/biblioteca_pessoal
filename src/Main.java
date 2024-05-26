@@ -13,58 +13,64 @@ import classes.enums.StatusTexto;
 import classes.models.Artigo;
 import classes.models.Livro;
 import classes.models.Texto;
-import database.mysql.DAO.UsuarioDAO;
 
 public abstract class Main{
 	public static void main(String[] args) {
 	
 		Scanner sc = new Scanner(System.in);
 		File diretorioDB = new File(System.getProperty("user.dir") + "\\database\\usuarios\\"); //caminho absoluto
-		Usuario usuarioTeste = new Usuario("Naly", "admin", "123");
-		new UsuarioDAO().cadastrarUsuario(usuarioTeste);
-
-	    System.out.printf("%n========== BIBLIOTECA PESSOAL ==========%n" +
-		                  "=          Seja bem-vindo(a)!          =%n" +
-		                  "========================================%n");
+		
+	    System.out.printf("%n===========  BIBLIOTECA PESSOAL ===========%n" +
+		                  "=            Seja bem-vindo(a)!           =%n" +
+		                  "===========================================%n");
 		System.out.println();
 
 		int opcaoMenu;
-		String nomeEstante, nomeUsuario;
-		Estante estante = new Estante("Estante");
-			do{
-				menuPrincipal();
-				opcaoMenu = sc.nextInt();
-				sc.nextLine(); // Ler o \n do buffer para remover da próxima leitura;
-				// Limpar a tela e reprintar o menu;
-		    	switch(opcaoMenu){
-				// Colocar o código de cada caso num método a parte do main
-				// Adicionar uma forma de cancelar a operação, caso o usuário desista da opção que foi escolhida
-		        case 0:
-					System.out.println("Programa encerrado!");
-		            break;
+		do{
+			menuLogin();
+			opcaoMenu = sc.nextInt();
+			sc.nextLine();
+
+			if(opcaoMenu == 2){
+				String nomeLogin, senhaLogin;
+				System.out.print("Digite o Login: ");
+				nomeLogin = formatarEntrada(sc.nextLine());
+				System.out.print("Digite a senha: ");
+				senhaLogin = formatarEntrada(sc.nextLine());
+
+				Usuario usuario = new Usuario("nomeLogin", "senhaLogin");
+			
+				do{
+					menuPrincipal();
+					opcaoMenu = sc.nextInt();
+					sc.nextLine(); // Ler o \n do buffer 
+		    		switch(opcaoMenu){
+		        	case 0:
+						System.out.println("Programa encerrado!");
+		            	break;
 					
-				case 1:// Tratar Estantes com o mesmo nome 
-					boolean arquivo;
-					System.out.printf("Digite o nome da Estante: ");
-					nomeEstante = sc.nextLine();
-					
-					arquivo = verificarPastaDoUsuario(diretorioDB, nomeEstante); //verificando se existe estante
-					if (arquivo){
-						criarArquivo(diretorioDB, usuarioTeste.getNome(), nomeEstante);
-						usuarioTeste.addEstante(new Estante(nomeEstante));
-						System.out.printf("'%s' estante adicionada com sucesso!\n", nomeEstante);
-						System.out.printf("N de Estantes do usuário: %d\n", usuarioTeste.getListaEstantes().size()); //arrumar isso
-					}
-					else 
-						System.out.println("Erro ao criar Estante.");
+					case 1:// criar estante
+						boolean arquivo;
+						String nomeEstante;
+						System.out.printf("Digite o nome da Estante: ");
+						nomeEstante = formatarEntrada(sc.nextLine());
+						
+						arquivo = verificarPastaDoUsuario(diretorioDB, nomeEstante); //verificando se existe estante
+						if (arquivo){
+							criarArquivo(diretorioDB, usuario.getNome(), nomeEstante);
+							usuario.addEstante(new Estante(nomeEstante));
+							System.out.printf("'%s' estante adicionada com sucesso para o usuario '%s'!\n", nomeEstante, usuario.getLogin());
+							System.out.printf("Quantidade de Estantes do usuario: %d\n", usuario.getListaEstantes().size()); //arrumar isso
+						}
+						else 
+							System.out.println("Erro ao criar Estante.");
 	
-				break;
+						break;
 
 		        case 2:
-					// Arrumar isso aqui, ta prestando não
 					System.out.printf("Digite o nome da estante que deseja visualizar: ");
 					nomeEstante = sc.nextLine();
-					System.out.printf(extrairDadosArquivo(diretorioDB, usuarioTeste.getNome(), nomeEstante));
+					System.out.printf(extrairDadosArquivo(diretorioDB, usuario.getNome(), nomeEstante));
 					break;
 
 		        case 3: 
@@ -72,7 +78,7 @@ public abstract class Main{
 					String nomeC3;
 					System.out.printf("Digite o nome da estante que desaja remover: ");
 					nomeC3 = sc.nextLine();
-					usuarioTeste.getListaEstantes().remove(usuarioTeste.buscarEstante(nomeC3));
+					usuario.getListaEstantes().remove(usuario.buscarEstante(nomeC3));
 					break;
 
 				case 4:
@@ -154,25 +160,25 @@ public abstract class Main{
 						}
 					}	
 
-					escreverDados(diretorioDB, usuarioTeste.getNome(), "Todos", texto.toString());
+					escreverDados(diretorioDB, usuario.getNome(), "Todos", texto.toString());
 					break;		
 		        
 					case 5:
 					
 		            System.out.printf("Digite o nome do livro que deseja visualizar: ");
 					String nome = sc.nextLine();
-					estante.filtrarNome(diretorioDB, usuarioTeste.getNome(), "Todos", nome);
+					estante.filtrarNome(diretorioDB, usuario.getNome(), "Todos", nome);
 
 					break;
 				case 6: 
 					System.out.println("Digite o nome do texto que desejas excluir: ");
 					String nome1 = sc.nextLine();
-					estante.excluirLivro(diretorioDB, usuarioTeste.getNome(), "Todos", nome1);
+					estante.excluirLivro(diretorioDB, usuario.getNome(), "Todos", nome1);
 					
 					break;
 		        case 7:
-		           		System.out.printf("Estantes de %s", usuarioTeste.getNome());
-					for (Estante e : usuarioTeste.getListaEstantes()) {
+		           		System.out.printf("Estantes de %s", usuario.getNome());
+					for (Estante e : usuario.getListaEstantes()) {
 						System.out.printf("-> %s:", e.getNome());
 						for (Texto t : e.getListaTextos()) {
 							System.out.printf("- %s", t.getNomeTexto());
@@ -192,10 +198,10 @@ public abstract class Main{
 					pasta = verificarPastaDoUsuario(diretorioDB, nomeUsuario);
 					if (pasta){
 						pasta = new File(diretorioDB, nomeUsuario).mkdir();
-						usuarioTeste.addEstante(new Estante(nomeUsuario)); //verificar esse metodo depois
+						usuario.addEstante(new Estante(nomeUsuario)); //verificar esse metodo depois
 						criarArquivo(diretorioDB, nomeUsuario, "Todos"); //criando uma estante genérica
 						System.out.printf("%s usuário criado com sucesso!\n", nomeUsuario);
-						System.out.printf("N de Estantes do usuário: %d\n", usuarioTeste.getListaEstantes().size()); //não seria melhor arquivos?
+						System.out.printf("N de Estantes do usuário: %d\n", usuario.getListaEstantes().size()); //não seria melhor arquivos?
 					}
 					else 
 						System.out.println("Erro ao criar Estante.");
@@ -207,9 +213,23 @@ public abstract class Main{
 		    }
 		}while (opcaoMenu != 0);
 		sc.close();
+		}
+		}while (opcaoMenu > 0 && opcaoMenu <= 2);
+
+		
 	}
 
 	//funcoes do main
+	public static void menuLogin(){
+		System.out.println("================  LOGIN  ==================");
+		System.out.printf("[0] - Sair%n" +
+						  "[1] - Criar Usuario%n" +
+						  "[2] - Logar%n");
+		System.out.println("===========================================");
+		System.out.print("OPCAO: ");
+
+	}
+
 	public static void menuPrincipal(){
 		System.out.println("================  MENU  ==================");
 		System.out.printf("DIGITE:%n" +
@@ -293,5 +313,11 @@ public abstract class Main{
 			e.printStackTrace();
 		}
 		return dados.toString();
+	}
+
+	public static String formatarEntrada(String entrada){
+		entrada.replaceAll("\\s+", "");
+		entrada.toUpperCase();
+		return entrada;
 	}
 }

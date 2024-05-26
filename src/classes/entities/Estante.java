@@ -14,255 +14,44 @@ import classes.models.Texto;
 public class Estante {
     // atributos
     private String nome;
-    private ArrayList<Texto> listaTextos;
 
     // construtor
     public Estante (String nome){
         this.nome = nome;
-        listaTextos = new ArrayList<Texto>();
     }
 
-    // métodos classe estante
-    public void mostrarTextos() {
-        if (listaTextos.isEmpty()) { //falta implementar metodo
-            System.out.println("A estante está vazia.");
-        } else {
-            System.out.println("Estante:");
-            for (Texto texto : listaTextos) {
-                System.out.println("Nome: " + texto.getNomeTexto() + ", Autor: " + texto.getNomeAutor());
-            }
-        }
-    }
-
-    // é desnecessário criar funções para isso, já existem métodos do ArrayList para isso
-    public void adicionarTexto(Texto texto) {
-        this.listaTextos.add(texto);
-    }
-    public void removerTexto(Texto texto) {
-        this.listaTextos.remove(texto);
-    }
-    public int totalTextos(){
-        return this.listaTextos.size();
-    }
-    public Texto sortearLeitura(){
-        Random random = new Random();
-        if (listaTextos.isEmpty()) {
-            return null; // Retorna null se a lista estiver vazia
-        }
-        int indiceSorteado = random.nextInt(listaTextos.size());
-        return listaTextos.get(indiceSorteado);
-    }
-    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-    // CRIAR MÉTODO: FILTRAR(), POR NOME, AUTOR, NÚMERO DE PAGINAS, EDITORA, ETC. SOBRECARGA
-
-    public void filtrarNome(File diretorio, String usuario, String estante, String nome) { //adaptar pra printar/procurar de várias estantes?
-		String path = diretorio.getName() + "\\" + usuario + "\\" + estante + ".txt";
-        String linha;
-        boolean achou = false;
-
-		try (BufferedReader arquivo = new BufferedReader(new FileReader(path))) {
-			while (((linha = arquivo.readLine()) != null) || achou == false) {
-                String[] dados = linha.split(" \\| ");
-				if (dados[0].equals(nome)){
-                    System.out.printf("Texto encontrado na estante: %s%n", estante);
-                    exibirTexto(dados);
-                    achou = true;
-                }
+    //arquivos
+    public String mostrarTextosEstante(File diretorio, String estante) {
+		String caminho = diretorio.getName() + "\\" + estante + ".txt";
+		StringBuilder dados = new StringBuilder();
+		try (BufferedReader arquivo = new BufferedReader(new FileReader(caminho))) {
+			String linha;
+			while ((linha = arquivo.readLine()) != null) {
+				dados.append(linha).append("\n");
 			}
 		} catch (IOException e) {
-			System.out.println("Erro ao extrair informações.");
+			System.out.println("Erro ao extrair informações");
 			e.printStackTrace();
 		}
-        if (!achou){
-            System.out.println("Texto não encontrado.");
-        }
+		return dados.toString();
+    }
+
+    public static void escreverDadosEstante(File diretorio, String estante, String dados){
+		String caminho = diretorio.getName() + "\\" + estante + ".txt";
+		try (BufferedWriter arquivo = new BufferedWriter(new FileWriter(caminho, true))){
+			arquivo.write(dados);
+			arquivo.newLine();
+			System.out.println("Informações salvas com sucesso.");
+		}
+		catch (IOException e){
+			System.out.println("Erro ao salvar informações.");
+			e.printStackTrace(); //IO exception é gerada as vezes ao tentar abrir um arquivo txt atraves do scanner, por isso temos que adicionar uma execeção, ela imprime o tipo de erro
+		}
 	}
 
-    public void exibirTexto(String[] dados){
-        System.out.println("=========================================");
-        System.out.printf("Nome: " + dados[0] +
-        "%nAutor: " + dados[1] + 
-        "%nPublicação: " + dados[2] + 
-        "%nInicio da leitura: " + dados[3] + 
-        "%nTermino da leitura: " + dados[4] + 
-        "%nNúmero de páginas: " + dados[5] + 
-        "%nStatus: " + dados[6] + "%n");
-        System.out.println("=========================================");
-        
-    }
-
-    public void filtrarAutor(String autor){
-        int encontrou = 0;
-        for (Texto texto : listaTextos){
-            if (autor.compareTo(texto.buscarNomeAutor(autor)) == 0){
-                System.out.println("Texto encontrado!%n");
-                System.out.printf("Nome: " + texto.getNomeTexto() + 
-						"%nAutor: " + texto.getNomeAutor() + 
-						"%nPublicação: " + texto.getDataPublicacao() + 
-						"%nInicio da leitura: " + texto.getInicioLeitura() + 
-						"%nTermino da leitura: " + texto.getTerminoLeitura() + 
-						"%nNúmero de páginas: " + texto.getNumPaginas() + 
-						"%nStatus: " +
-                        texto.getStatus());
-						encontrou = 1;
-				
-				//return texto;
-            }
-        }
-        if (encontrou == 0){
-            System.out.printf("O texto cujo autor é " + autor + " não foi encontrado");
-            //return null; 
-        }
-    }
-    
-    public void filtrarPublicacao(String publicacao){
-        int encontrou = 0;
-        for (Texto texto : listaTextos){
-            if (publicacao.compareTo(texto.getDataPublicacao()) == 0){
-                System.out.println("Texto encontrado!%n");
-                System.out.printf("Nome: " + texto.getNomeTexto() + 
-						"%nAutor: " + texto.getNomeAutor() + 
-						"%nPublicação: " + texto.getDataPublicacao() + 
-						"%nInicio da leitura: " + texto.getInicioLeitura() + 
-						"%nTermino da leitura: " + texto.getTerminoLeitura() + 
-						"%nNúmero de páginas: " + texto.getNumPaginas() + 
-						"%nStatus: " +
-                        texto.getStatus());
-						encontrou = 1;
-				
-				//return texto;
-            }
-        }
-        if (encontrou == 0){
-            System.out.printf("O texto cuja data de publicação é " + publicacao + " não foi encontrado");
-            //return null; 
-        }
-    }
-    
-     public void filtrarInicioLeitura(String inicioLeitura){
-        int encontrou = 0;
-        for (Texto texto : listaTextos){
-            if (inicioLeitura.compareTo(texto.getInicioLeitura()) == 0){
-                System.out.println("Texto encontrado!%n");
-                System.out.printf("Nome: " + texto.getNomeTexto() + 
-						"%nAutor: " + texto.getNomeAutor() + 
-						"%nPublicação: " + texto.getDataPublicacao() + 
-						"%nInicio da leitura: " + texto.getInicioLeitura() + 
-						"%nTermino da leitura: " + texto.getTerminoLeitura() + 
-						"%nNúmero de páginas: " + texto.getNumPaginas() + 
-						"%nStatus: " +
-                        texto.getStatus());
-						encontrou = 1;
-				
-				//return texto;
-            }
-        }
-        if (encontrou == 0){
-            System.out.printf("O texto cujo inicio da leitura é " + inicioLeitura + " não foi encontrado");
-            //return null; 
-        }
-    }
-    
-         public void filtrarTerminoLeitura(String terminoLeitura){
-        int encontrou = 0;
-        for (Texto texto : listaTextos){
-            if (terminoLeitura.compareTo(texto.getTerminoLeitura()) == 0){
-                System.out.println("Texto encontrado!%n");
-                System.out.printf("Nome: " + texto.getNomeTexto() + 
-						"%nAutor: " + texto.getNomeAutor() + 
-						"%nPublicação: " + texto.getDataPublicacao() + 
-						"%nInicio da leitura: " + texto.getInicioLeitura() + 
-						"%nTermino da leitura: " + texto.getTerminoLeitura() + 
-						"%nNúmero de páginas: " + texto.getNumPaginas() + 
-						"%nStatus: " +
-                        texto.getStatus());
-						encontrou = 1;
-				
-				//return texto;
-            }
-        }
-        if (encontrou == 0){
-            System.out.printf("O texto cujo termino da leitura é " + terminoLeitura + " não foi encontrado");
-            //return null; 
-        }
-    }
-    
-    public void filtrar(int numPaginas){ // esse metodo vai ser sobrecarregado junto com o de filtrar por se foi lido ou nao 
-        int encontrou = 0;
-        for (Texto texto : listaTextos){
-            if (numPaginas == texto.getNumPaginas()){
-                System.out.println("%nTexto encontrado!%n");
-                System.out.printf("Nome: " + texto.getNomeTexto() + 
-						"%nAutor: " + texto.getNomeAutor() + 
-						"%nPublicação: " + texto.getDataPublicacao() + 
-						"%nInicio da leitura: " + texto.getInicioLeitura() + 
-						"%nTermino da leitura: " + texto.getTerminoLeitura() + 
-						"%nNúmero de páginas: " + texto.getNumPaginas() + 
-						"%nStatus: " +
-                        texto.getStatus());
-						encontrou = 1;
-				
-				//return texto;
-            }
-        }
-        if (encontrou == 0){
-            System.out.printf("O texto cujo número de páginas é " + numPaginas + " não foi encontrado");
-            //return null; 
-        }
-    }
-    
-    public void filtrarLido(){ //esse metodo vai ser sobrecarregado junto com o de filtrar pelo numero de paginas
-        int encontrou = 0;
-        for (Texto texto : listaTextos){
-            if (texto.getStatus().ordinal() == 2){
-                System.out.println("%nTexto encontrado!%n");
-                System.out.printf("Nome: " + texto.getNomeTexto() + 
-						"%nAutor: " + texto.getNomeAutor() + 
-						"%nPublicação: " + texto.getDataPublicacao() + 
-						"%nInicio da leitura: " + texto.getInicioLeitura() + 
-						"%nTermino da leitura: " + texto.getTerminoLeitura() + 
-						"%nNúmero de páginas: " + texto.getNumPaginas() + 
-						"%nStatus: " +
-                        texto.getStatus());
-						encontrou = 1;
-				
-				//return texto;
-            }
-        }
-        if (encontrou == 0){
-            System.out.printf("O texto não foi encontrado");
-            //return null; 
-        }
-    }
-    
-    public void filtrarLendo(){ //esse metodo vai ser sobrecarregado junto com o de filtrar pelo numero de paginas
-        int encontrou = 0;
-        for (Texto texto : listaTextos){
-            if (texto.getStatus().ordinal() == 1){
-                System.out.println("%nTexto encontrado!%n");
-                System.out.printf("Nome: " + texto.getNomeTexto() + 
-						"%nAutor: " + texto.getNomeAutor() + 
-						"%nPublicação: " + texto.getDataPublicacao() + 
-						"%nInicio da leitura: " + texto.getInicioLeitura() + 
-						"%nTermino da leitura: " + texto.getTerminoLeitura() + 
-						"%nNúmero de páginas: " + texto.getNumPaginas() + 
-						"%nStatus: " +
-                        texto.getStatus());
-						encontrou = 1;
-				
-				//return texto;
-            }
-        }
-        if (encontrou == 0){
-            System.out.printf("O texto não foi encontrado");
-            //return null; 
-        }
-    }
-
-    public void excluirLivro(File diretorio, String usuario, String estante, String nome){
-        String path = diretorio.getName() + "\\" + usuario + "\\" + estante + ".txt";
-        String pathTemp = diretorio.getName() + "\\" + usuario + "\\" + estante + "Temp.txt";
+    public void excluirLivro(File diretorio, String estante, String nome){
+        String path = diretorio.getName() + "\\" + estante + ".txt";
+        String pathTemp = diretorio.getName() + "\\" + estante + "Temp.txt";
         String linha;
         boolean achou = false;
     
@@ -298,6 +87,77 @@ public class Estante {
             }
         }
     }
+
+    //filtros
+    public void exibirTexto(String[] dados){
+        System.out.println("=========================================");
+        System.out.printf("Nome: " + dados[0] +
+        "%nAutor: " + dados[1] + 
+        "%nPublicação: " + dados[2] + 
+        "%nInicio da leitura: " + dados[3] + 
+        "%nTermino da leitura: " + dados[4] + 
+        "%nNúmero de páginas: " + dados[5] + 
+        "%nStatus: " + dados[6] + "%n");
+        System.out.println("=========================================");
+        
+    }
+
+    public void filtrarNome(File diretorio, String estante, String nome) {
+		String path = diretorio.getName() + "\\" + estante + ".txt";
+        String linha;
+        boolean achou = false;
+
+		try (BufferedReader arquivo = new BufferedReader(new FileReader(path))) {
+			while (((linha = arquivo.readLine()) != null) || achou == false) {
+                String[] dados = linha.split(" \\| ");
+				if (dados[0].equals(nome)){
+                    System.out.printf("Texto encontrado na estante: %s%n", estante);
+                    exibirTexto(dados);
+                    achou = true;
+                }
+			}
+		} catch (IOException e) {
+			System.out.println("Erro ao extrair informações.");
+			e.printStackTrace();
+		}
+        if (!achou){
+            System.out.println("Texto não encontrado.");
+        }
+	}
+
+    public void filtrarAutor(File diretorio, String estante, String autor) {
+		String path = diretorio.getName() + "\\" + estante + ".txt";
+        String linha;
+        boolean achou = false;
+
+		try (BufferedReader arquivo = new BufferedReader(new FileReader(path))) {
+			while (((linha = arquivo.readLine()) != null) || achou == false) {
+                String[] dados = linha.split(" \\| ");
+				
+                if (dados[1].equals(autor)){
+                    System.out.printf("Texto encontrado na estante: %s%n", estante);
+                    exibirTexto(dados);
+                    achou = true;
+                }
+
+                String[] autores = dados[1].split(","); //se houver mais de 1
+                for (String a : autores){
+                    if(a.equals(autor)){
+                        System.out.printf("Texto encontrado na estante: %s%n", estante);
+                        exibirTexto(dados);
+                        achou = true;
+                    }
+                }
+			}
+		} catch (IOException e) {
+			System.out.println("Erro ao extrair informações.");
+			e.printStackTrace();
+		}
+        if (!achou){
+            System.out.println("Texto não encontrado.");
+        }
+	}
+
     // setters e getters
     public String getNome(){
         return this.nome;

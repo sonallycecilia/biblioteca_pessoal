@@ -17,6 +17,12 @@ public class Usuario {
         this.listaEstantes = new ArrayList<Estante>();
     }
 
+    public Usuario(String login, String senha){
+        this.login = nome;
+        this.senha = senha;
+        this.listaEstantes = new ArrayList<Estante>();
+    }
+
     public void addEstante(Estante estante){
         listaEstantes.add(estante);
     }
