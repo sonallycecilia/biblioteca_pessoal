@@ -1,4 +1,4 @@
-package classes;
+package classes.models;
 
 import java.util.ArrayList;
 import java.util.Date;

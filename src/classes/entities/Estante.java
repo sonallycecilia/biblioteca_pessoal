@@ -1,4 +1,4 @@
-package classes;
+package classes.entities;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
+
+import classes.models.Texto;
 
 public class Estante {
     // atributos

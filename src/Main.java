@@ -10,27 +10,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-import classes.Artigo;
-import classes.Estante;
-import classes.Livro;
-import classes.Texto;
-import classes.Usuario;
+import classes.entities.Estante;
+import classes.entities.Usuario;
 import classes.enums.StatusTexto;
+import classes.models.Artigo;
+import classes.models.Livro;
+import classes.models.Texto;
+import database.mysql.DAO.UsuarioDAO;
 
 // Fazer o javadoc
 public abstract class Main{
 	public static void main(String[] args) throws ParseException {
 		
-		/*Criação do usuário
-		 * puxar dados com as informações do usuário de um arquivo txt(temporariamente)
-		 * utilizar uma API de bando de dados depois
-		 * Vou criar um usuario para fins de teste
-		 */
-		 // Talvez isso mude se o escopo de cada operação for redirecionado para um método à parte
 		SimpleDateFormat padrao = new SimpleDateFormat("dd/MM/yyyy");
 		Scanner sc = new Scanner(System.in);
-		File diretorioDB = new File(System.getProperty("user.dir") + "\\database\\"); //caminho absoluto
+		File diretorioDB = new File(System.getProperty("user.dir") + "\\database\\usuarios\\"); //caminho absoluto
 		Usuario usuarioTeste = new Usuario("Naly", "admin", "123");
+		new UsuarioDAO().cadastrarUsuario(usuarioTeste);
 
 	    System.out.printf("%n========== BIBLIOTECA PESSOAL ==========%n" +
 		                  "=          Seja bem-vindo(a)!          =%n" +
@@ -59,7 +55,7 @@ public abstract class Main{
 					
 					arquivo = verificarPastaDoUsuario(diretorioDB, nomeEstante); //verificando se existe estante
 					if (arquivo){
-						criarArquivo(diretorioDB, usuarioTeste.getNomeExibicao(), nomeEstante);
+						criarArquivo(diretorioDB, usuarioTeste.getNome(), nomeEstante);
 						usuarioTeste.addEstante(new Estante(nomeEstante));
 						System.out.printf("'%s' estante adicionada com sucesso!\n", nomeEstante);
 						System.out.printf("N de Estantes do usuário: %d\n", usuarioTeste.getListaEstantes().size()); //arrumar isso
@@ -73,7 +69,7 @@ public abstract class Main{
 					// Arrumar isso aqui, ta prestando não
 					System.out.printf("Digite o nome da estante que deseja visualizar: ");
 					nomeEstante = sc.nextLine();
-					System.out.printf(extrairDadosArquivo(diretorioDB, usuarioTeste.getNomeExibicao(), nomeEstante));
+					System.out.printf(extrairDadosArquivo(diretorioDB, usuarioTeste.getNome(), nomeEstante));
 					break;
 
 		        case 3: 
@@ -163,24 +159,24 @@ public abstract class Main{
 						}
 					}	
 
-					escreverDados(diretorioDB, usuarioTeste.getNomeExibicao(), "Todos", texto.toString());
+					escreverDados(diretorioDB, usuarioTeste.getNome(), "Todos", texto.toString());
 					break;		
 		        
 					case 5:
 					
 		            System.out.printf("Digite o nome do livro que deseja visualizar: ");
 					String nome = sc.nextLine();
-					estante.filtrarNome(diretorioDB, usuarioTeste.getNomeExibicao(), "Todos", nome);
+					estante.filtrarNome(diretorioDB, usuarioTeste.getNome(), "Todos", nome);
 
 					break;
 				case 6: 
 					System.out.println("Digite o nome do texto que desejas excluir: ");
 					String nome1 = sc.nextLine();
-					estante.excluirLivro(diretorioDB, usuarioTeste.getNomeExibicao(), "Todos", nome1);
+					estante.excluirLivro(diretorioDB, usuarioTeste.getNome(), "Todos", nome1);
 					
 					break;
 		        case 7:
-		           		System.out.printf("Estantes de %s", usuarioTeste.getNomeExibicao());
+		           		System.out.printf("Estantes de %s", usuarioTeste.getNome());
 					for (Estante e : usuarioTeste.getListaEstantes()) {
 						System.out.printf("-> %s:", e.getNome());
 						for (Texto t : e.getListaTextos()) {

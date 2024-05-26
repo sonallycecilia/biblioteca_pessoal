@@ -1,15 +1,17 @@
-package classes;
+package classes.entities;
 
 import java.util.ArrayList;
 
+import classes.models.Texto;
+
 public class Usuario {
-    private String nomeExibicao;
+    private String nome;
     private String login;
     private String senha;
     private ArrayList<Estante> listaEstantes;
     
-    public Usuario(String nomeExibicao, String nome, String senha){
-        this.nomeExibicao = nomeExibicao;
+    public Usuario(String nome, String login, String senha){
+        this.nome = nome;
         this.login = nome;
         this.senha = senha;
         this.listaEstantes = new ArrayList<Estante>();
@@ -46,11 +48,11 @@ public class Usuario {
         return null;
     }
 
-    public String getNomeExibicao() {
-        return nomeExibicao;
+    public String getNome() {
+        return nome;
     }
-    public void setNomeExibicao(String nomeExibicao) {
-        this.nomeExibicao = nomeExibicao;
+    public void setNome(String nomeExibicao) {
+        this.nome = nomeExibicao;
     }
     public String getLogin() {
         return login;
