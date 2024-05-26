@@ -1,7 +1,6 @@
 package classes.models;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import classes.enums.StatusTexto;
 
@@ -10,14 +9,14 @@ public abstract class Texto {
     public static final String SEPARADOR_STRING = ",";
     private String nomeTexto;
     private ArrayList<String> nomeAutores;
-    private Date dataPublicacao;
+    private String dataPublicacao;
     private int numPaginas;
-    private Date inicioLeitura;
-    private Date terminoLeitura;
+    private String inicioLeitura;
+    private String terminoLeitura;
     private StatusTexto status;
 
     // Contrutor com todas os atributos
-    public Texto(String nomeTexto, ArrayList<String> nomeAutores, Date dataPublicacao, Date inicioLeitura, Date terminoLeitura, int numPaginas, StatusTexto status){
+    public Texto(String nomeTexto, ArrayList<String> nomeAutores, String dataPublicacao, String inicioLeitura, String terminoLeitura, int numPaginas, StatusTexto status){
         // Tratamento de Erros depois.
         this.nomeTexto = nomeTexto; // Padronizar Strings de nomes. Cada inicial maiúscula e o resto minúsculo
         this.nomeAutores = nomeAutores;  
@@ -29,7 +28,7 @@ public abstract class Texto {
     }
 
     //sem inicio e fim = nao li
-    public Texto(String nomeTexto, ArrayList<String> nomeAutores, Date dataPublicacao, int numPaginas, StatusTexto status){
+    public Texto(String nomeTexto, ArrayList<String> nomeAutores, String dataPublicacao, int numPaginas, StatusTexto status){
         this.nomeTexto = nomeTexto;
         this.nomeAutores = nomeAutores;  
         this.dataPublicacao = dataPublicacao;
@@ -38,7 +37,7 @@ public abstract class Texto {
     }
 
     //lendo, sem fim de leitura
-    public Texto(String nomeTexto, ArrayList<String> nomeAutores, Date dataPublicacao, Date inicioLeitura, int numPaginas, StatusTexto status){
+    public Texto(String nomeTexto, ArrayList<String> nomeAutores, String dataPublicacao, String inicioLeitura, int numPaginas, StatusTexto status){
         this.nomeTexto = nomeTexto; 
         this.nomeAutores = nomeAutores;  
         this.dataPublicacao = dataPublicacao;
@@ -77,21 +76,21 @@ public abstract class Texto {
     public void setNomeAutor(ArrayList<String> nomeAutores) {
         this.nomeAutores = nomeAutores;
     }
-    public Date getDataPublicacao(){
+    public String getDataPublicacao(){
         return dataPublicacao;
     }
-    public Date getInicioLeitura(){
+    public String getInicioLeitura(){
         return inicioLeitura;
     }
-    public void setInicioLeitura(Date inicioLeitura){
+    public void setInicioLeitura(String inicioLeitura){
         this.inicioLeitura = inicioLeitura;  
     }
 
-    public void setTerminoLeitura(Date terminoLeitura){
+    public void setTerminoLeitura(String terminoLeitura){
         this.terminoLeitura = terminoLeitura;
     }
 
-    public Date getTerminoLeitura(){
+    public String getTerminoLeitura(){
         return terminoLeitura;
     }
     public int getNumPaginas() {

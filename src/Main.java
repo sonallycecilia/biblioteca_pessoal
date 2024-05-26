@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Scanner;
 
 import classes.entities.Estante;
@@ -19,9 +16,8 @@ import classes.models.Texto;
 import database.mysql.DAO.UsuarioDAO;
 
 public abstract class Main{
-	public static void main(String[] args) throws ParseException {
-		
-		SimpleDateFormat padrao = new SimpleDateFormat("dd/MM/yyyy");
+	public static void main(String[] args) {
+	
 		Scanner sc = new Scanner(System.in);
 		File diretorioDB = new File(System.getProperty("user.dir") + "\\database\\usuarios\\"); //caminho absoluto
 		Usuario usuarioTeste = new Usuario("Naly", "admin", "123");
@@ -84,7 +80,7 @@ public abstract class Main{
 					  Fazer uma verificação após cada entrada ser lida, se o usuário digitar 0, a operação é finalizada*/ 
 					// inicializar as variáveis com seus valores padrão
 					String nomeTexto, nomeAutor, nomeEditora, nomeRevista, nomeGenero, palavras;
-					Date dataPublicacao, dataInicio, dataTermino;
+					String dataPublicacao, dataInicio, dataTermino;
 					StatusTexto status;
 					ArrayList<String> nomeAutores = new ArrayList<String>();
 					ArrayList<String> palavrasChave = new ArrayList<String>();
@@ -104,7 +100,7 @@ public abstract class Main{
 					System.out.printf("Digite o nome do Autor(es) do Texto. Separe por ',': ");
 					nomeAutor = sc.nextLine();		
 					System.out.printf("Digite a Data de Publicacao do Texto (dd/mm/aaaa): ");
-					dataPublicacao = padrao.parse(sc.nextLine());
+					dataPublicacao = sc.nextLine();
 					System.out.printf("Digite o Número de Páginas do Texto: ");
 					numPaginas = sc.nextInt();
 
@@ -149,11 +145,11 @@ public abstract class Main{
 
 					if((status.ordinal()) != 0){ //se foi iniciado
 						System.out.println("Digite a data que começou a ler(dd/mm/aa):");
-						dataInicio = padrao.parse(sc.nextLine());
+						dataInicio = sc.nextLine();
 						texto.setInicioLeitura(dataInicio);
 						if((status.ordinal()) == 2){ //se foi lido
 							System.out.println("Digite a data que terminou de ler(dd/mm/aa):");
-							dataTermino = padrao.parse(sc.nextLine()); 
+							dataTermino = sc.nextLine(); 
 							texto.setTerminoLeitura(dataTermino);
 						}
 					}	
@@ -225,10 +221,10 @@ public abstract class Main{
 						"[6] - Excluir Texto;%n" +
 						"[7] - Listar Estantes;%n" +
 						"[8] - Pesquisar;%n" +
-						"[9] - Criar Usuário;%n" +
+						"[9] - Criar Usuario;%n" +
 						"[0] - Sair;%n");
 		System.out.println("==========================================");
-		System.out.print("OPÇÃO: ");
+		System.out.print("OPCAO: ");
 	}
 
 	//criando e verificando pasta da estante

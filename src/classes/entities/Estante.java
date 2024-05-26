@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Random;
 
 import classes.models.Texto;
@@ -117,7 +116,7 @@ public class Estante {
         }
     }
     
-    public void filtrarPublicacao(Date publicacao){
+    public void filtrarPublicacao(String publicacao){
         int encontrou = 0;
         for (Texto texto : listaTextos){
             if (publicacao.compareTo(texto.getDataPublicacao()) == 0){
@@ -141,7 +140,7 @@ public class Estante {
         }
     }
     
-     public void filtrarInicioLeitura(Date inicioLeitura){
+     public void filtrarInicioLeitura(String inicioLeitura){
         int encontrou = 0;
         for (Texto texto : listaTextos){
             if (inicioLeitura.compareTo(texto.getInicioLeitura()) == 0){
@@ -165,7 +164,7 @@ public class Estante {
         }
     }
     
-         public void filtrarTerminoLeitura(Date terminoLeitura){
+         public void filtrarTerminoLeitura(String terminoLeitura){
         int encontrou = 0;
         for (Texto texto : listaTextos){
             if (terminoLeitura.compareTo(texto.getTerminoLeitura()) == 0){
