@@ -1,6 +1,8 @@
 package classes.entities;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import classes.models.Texto;
 
@@ -8,50 +10,16 @@ public class Usuario {
     private String nome;
     private String login;
     private String senha;
-    private ArrayList<Estante> listaEstantes;
-    
+
     public Usuario(String nome, String login, String senha){
         this.nome = nome;
         this.login = nome;
         this.senha = senha;
-        this.listaEstantes = new ArrayList<Estante>();
     }
 
     public Usuario(String login, String senha){
         this.login = nome;
         this.senha = senha;
-        this.listaEstantes = new ArrayList<Estante>();
-    }
-
-    public void addEstante(Estante estante){
-        listaEstantes.add(estante);
-    }
-    public int addTexto(Estante estante, Texto texto){
-        for(Estante e: listaEstantes){
-            if(estante == e){
-                e.adicionarTexto(texto);
-                return 1;
-            }
-        }
-        return 0;
-    }
-    public int addTexto(String nomeEstante, Texto texto){
-        for(Estante e: listaEstantes){
-            if(nomeEstante == e.getNome()){
-                e.adicionarTexto(texto);
-                return 1;
-            }
-        }
-        return 0;
-    }
-
-    public Estante buscarEstante(String nome){
-        for(Estante e : listaEstantes){
-            if(nome == e.getNome()){
-                return e;
-            }
-        }
-        return null;
     }
 
     public String getNome() {
@@ -72,11 +40,21 @@ public class Usuario {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    public ArrayList<Estante> getListaEstantes() {
-        return listaEstantes;
-    }
-    public void setListaEstantes(ArrayList<Estante> listaEstantes) {
-        this.listaEstantes = listaEstantes;
-    }
-    
+
+    //arquivos
+    public static void criarPastaUsuario(File diretorio, String nomeUsuario){
+		String path = diretorio.getName() + "\\" + nomeUsuario; 
+		File aq = new File(path);
+		if (!aq.exists()){
+			try {
+				aq.createNewFile();
+				System.out.println(nomeUsuario + " criado com sucesso.");
+			}
+			catch (IOException e){
+				System.out.println("Erro ao criar usuario.");
+				e.printStackTrace();
+			}
+		} else
+			System.out.println("Ja existe um usuario com este nome!");
+	}
 }

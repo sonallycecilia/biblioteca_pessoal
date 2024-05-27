@@ -6,22 +6,26 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Random;
-
-import classes.models.Texto;
 
 public class Estante {
-    // atributos
-    private String nome;
-
-    // construtor
-    public Estante (String nome){
-        this.nome = nome;
-    }
-
     //arquivos
-    public String mostrarTextosEstante(File diretorio, String estante) {
+    public static void criarArquivo(File diretorio, String nomeArquivo){
+		String path = diretorio.getName() + "\\" + nomeArquivo + ".txt"; //criando o arquivo com base no nome informado pelo usuário
+		File aq = new File(path);
+		if (!aq.exists()){
+			try (FileWriter arquivo = new FileWriter(path)){
+				System.out.println(nomeArquivo + " criado com sucesso.");
+			}
+			catch (IOException e){
+				System.out.println("Erro ao criar arquivo.");
+				e.printStackTrace();
+			}
+		}
+        else
+            System.out.println("O arquivo ja existe.");
+	}
+
+    public static String mostrarTextos(File diretorio, String estante) {
 		String caminho = diretorio.getName() + "\\" + estante + ".txt";
 		StringBuilder dados = new StringBuilder();
 		try (BufferedReader arquivo = new BufferedReader(new FileReader(caminho))) {
@@ -36,7 +40,7 @@ public class Estante {
 		return dados.toString();
     }
 
-    public static void escreverDadosEstante(File diretorio, String estante, String dados){
+    public static void escreverDados(File diretorio, String estante, String dados){
 		String caminho = diretorio.getName() + "\\" + estante + ".txt";
 		try (BufferedWriter arquivo = new BufferedWriter(new FileWriter(caminho, true))){
 			arquivo.write(dados);
@@ -49,7 +53,7 @@ public class Estante {
 		}
 	}
 
-    public void excluirLivro(File diretorio, String estante, String nome){
+    public static void excluirLivro(File diretorio, String estante, String nome){
         String path = diretorio.getName() + "\\" + estante + ".txt";
         String pathTemp = diretorio.getName() + "\\" + estante + "Temp.txt";
         String linha;
@@ -89,7 +93,7 @@ public class Estante {
     }
 
     //filtros
-    public void exibirTexto(String[] dados){
+    public static void exibirTexto(String[] dados){
         System.out.println("=========================================");
         System.out.printf("Nome: " + dados[0] +
         "%nAutor: " + dados[1] + 
@@ -102,7 +106,7 @@ public class Estante {
         
     }
 
-    public void filtrarNome(File diretorio, String estante, String nome) {
+    public static void filtrarNome(File diretorio, String estante, String nome) {
 		String path = diretorio.getName() + "\\" + estante + ".txt";
         String linha;
         boolean achou = false;
@@ -157,15 +161,4 @@ public class Estante {
             System.out.println("Texto não encontrado.");
         }
 	}
-
-    // setters e getters
-    public String getNome(){
-        return this.nome;
-    }
-    public void setNome(String nome){
-        this.nome = nome;
-    }
-    public ArrayList<Texto> getListaTextos() {
-        return listaTextos;
-    }
 }
