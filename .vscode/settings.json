@@ -1,13 +1,7 @@
 {
     "java.project.sourcePaths": ["src"],
     "java.project.outputPath": "bin",
-    "java.project.referencedLibraries": {
-        "include": [
-            "lib/**/*.jar",
-            "c:\\Users\\sonal_rkyba0o\\OneDrive\\Documentos\\Java\\mysql-connector-j-8.0.33\\mysql-connector-j-8.0.33\\mysql-connector-j-8.0.33.jar"
-        ],
-        "exclude": [
-            "lib/mysql-connector-j-8.0.33.jar"
-        ]
-    }
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar"
+    ]
 }
