@@ -5,5 +5,4 @@ public enum StatusTexto {
     LENDO, //1
     LIDO, //2
     ABANDONADO, //3
-    EMPRESTADO; //4
 }

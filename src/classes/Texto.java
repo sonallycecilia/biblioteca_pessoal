@@ -1,23 +1,24 @@
 package classes;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Scanner;
 
 import classes.enums.StatusTexto;
 
 public abstract class Texto {
     // Atributos
     public static final String SEPARADOR_STRING = ",";
+    public static final String SEPARADOR_ATRIBUTOS = "|";
     private String nomeTexto;
     private ArrayList<String> nomeAutores;
-    private Date dataPublicacao;
+    private String dataPublicacao;
     private int numPaginas;
-    private Date inicioLeitura;
-    private Date terminoLeitura;
+    private String inicioLeitura;
+    private String terminoLeitura;
     private StatusTexto status;
 
     // Contrutor com todas os atributos
-    public Texto(String nomeTexto, ArrayList<String> nomeAutores, Date dataPublicacao, Date inicioLeitura, Date terminoLeitura, int numPaginas, StatusTexto status){
+    public Texto(String nomeTexto, ArrayList<String> nomeAutores, String dataPublicacao, String inicioLeitura, String terminoLeitura, int numPaginas, StatusTexto status){
         // Tratamento de Erros depois.
         this.nomeTexto = nomeTexto; // Padronizar Strings de nomes. Cada inicial maiúscula e o resto minúsculo
         this.nomeAutores = nomeAutores;  
@@ -29,7 +30,7 @@ public abstract class Texto {
     }
 
     //sem inicio e fim = nao li
-    public Texto(String nomeTexto, ArrayList<String> nomeAutores, Date dataPublicacao, int numPaginas, StatusTexto status){
+    public Texto(String nomeTexto, ArrayList<String> nomeAutores, String dataPublicacao, int numPaginas, StatusTexto status){
         this.nomeTexto = nomeTexto;
         this.nomeAutores = nomeAutores;  
         this.dataPublicacao = dataPublicacao;
@@ -38,7 +39,7 @@ public abstract class Texto {
     }
 
     //lendo, sem fim de leitura
-    public Texto(String nomeTexto, ArrayList<String> nomeAutores, Date dataPublicacao, Date inicioLeitura, int numPaginas, StatusTexto status){
+    public Texto(String nomeTexto, ArrayList<String> nomeAutores, String dataPublicacao, String inicioLeitura, int numPaginas, StatusTexto status){
         this.nomeTexto = nomeTexto; 
         this.nomeAutores = nomeAutores;  
         this.dataPublicacao = dataPublicacao;
@@ -64,6 +65,30 @@ public abstract class Texto {
     }
 
     public void lerTexto(){} // Utilizar uma API externa para conseguir ler PDF's em java
+
+    public static boolean ehData(String data){
+        // 00/00/0000
+        char c;
+        int contNums = 0, contBarras = 0;
+        if(data.length() == 10){
+            for(int i = 0; i < data.length(); i++){
+                c = data.charAt(i);
+                if ((i == 2 || i == 5) && c == '/'){
+                    contBarras++;
+                } else if ((i == 0 || i == 1 || i == 3 || i == 4 || (i >= 6 && i <= 9)) && Character.isDigit(c)) {
+                    contNums++;
+                }
+            }
+            if(contBarras == 2 &&  contNums == 8){
+                return true;
+            } else { 
+                return false;
+            }
+        } else{
+            return false;
+        }
+    }
+
     // Getters e Setters
     public String getNomeTexto() {
         return nomeTexto;
@@ -77,21 +102,21 @@ public abstract class Texto {
     public void setNomeAutor(ArrayList<String> nomeAutores) {
         this.nomeAutores = nomeAutores;
     }
-    public Date getDataPublicacao(){
+    public String getDataPublicacao(){
         return dataPublicacao;
     }
-    public Date getInicioLeitura(){
+    public String getInicioLeitura(){
         return inicioLeitura;
     }
-    public void setInicioLeitura(Date inicioLeitura){
+    public void setInicioLeitura(String inicioLeitura){
         this.inicioLeitura = inicioLeitura;  
     }
 
-    public void setTerminoLeitura(Date terminoLeitura){
+    public void setTerminoLeitura(String terminoLeitura){
         this.terminoLeitura = terminoLeitura;
     }
 
-    public Date getTerminoLeitura(){
+    public String getTerminoLeitura(){
         return terminoLeitura;
     }
     public int getNumPaginas() {
@@ -104,5 +129,12 @@ public abstract class Texto {
         return status;
     }
     // Testes de Métodos 
-    //public static void main(String[] args){}
+    public static void main(String[] args) {
+        String s;
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Digite uma data (dd/mm/aaaa)");
+        s = sc.nextLine();
+        System.out.println(Texto.ehData(s));
+        sc.close();
+    }
 }

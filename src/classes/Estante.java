@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Random;
 
 public class Estante {
@@ -115,77 +114,76 @@ public class Estante {
         }
     }
     
-    public void filtrarPublicacao(Date publicacao){
-        int encontrou = 0;
-        for (Texto texto : listaTextos){
-            if (publicacao.compareTo(texto.getDataPublicacao()) == 0){
-                System.out.println("Texto encontrado!%n");
-                System.out.printf("Nome: " + texto.getNomeTexto() + 
-						"%nAutor: " + texto.getNomeAutor() + 
-						"%nPublicação: " + texto.getDataPublicacao() + 
-						"%nInicio da leitura: " + texto.getInicioLeitura() + 
-						"%nTermino da leitura: " + texto.getTerminoLeitura() + 
-						"%nNúmero de páginas: " + texto.getNumPaginas() + 
-						"%nStatus: " +
-                        texto.getStatus());
-						encontrou = 1;
-				
-				//return texto;
-            }
-        }
-        if (encontrou == 0){
-            System.out.printf("O texto cuja data de publicação é " + publicacao + " não foi encontrado");
-            //return null; 
-        }
-    }
+    // ALTERAR O ESCOPO DO MÉTODO, JÁ QUE AS DATAS PASSARAM A SER STRINGS
+
+    // public void filtrarPublicacao(Date publicacao){
+    //     int encontrou = 0;
+    //     for (Texto texto : listaTextos){
+    //         if (publicacao.compareTo(texto.getDataPublicacao()) == 0){
+    //             System.out.println("Texto encontrado!%n");
+    //             System.out.printf("Nome: " + texto.getNomeTexto() + 
+	// 					"%nAutor: " + texto.getNomeAutor() + 
+	// 					"%nPublicação: " + texto.getDataPublicacao() + 
+	// 					"%nInicio da leitura: " + texto.getInicioLeitura() + 
+	// 					"%nTermino da leitura: " + texto.getTerminoLeitura() + 
+	// 					"%nNúmero de páginas: " + texto.getNumPaginas() + 
+	// 					"%nStatus: " +
+    //                     texto.getStatus());
+	// 					encontrou = 1;
+	// 			//return texto;
+    //         }
+    //     }
+    //     if (encontrou == 0){
+    //         System.out.printf("O texto cuja data de publicação é " + publicacao + " não foi encontrado");
+    //         //return null; 
+    //     }
+    // }
     
-     public void filtrarInicioLeitura(Date inicioLeitura){
-        int encontrou = 0;
-        for (Texto texto : listaTextos){
-            if (inicioLeitura.compareTo(texto.getInicioLeitura()) == 0){
-                System.out.println("Texto encontrado!%n");
-                System.out.printf("Nome: " + texto.getNomeTexto() + 
-						"%nAutor: " + texto.getNomeAutor() + 
-						"%nPublicação: " + texto.getDataPublicacao() + 
-						"%nInicio da leitura: " + texto.getInicioLeitura() + 
-						"%nTermino da leitura: " + texto.getTerminoLeitura() + 
-						"%nNúmero de páginas: " + texto.getNumPaginas() + 
-						"%nStatus: " +
-                        texto.getStatus());
-						encontrou = 1;
-				
-				//return texto;
-            }
-        }
-        if (encontrou == 0){
-            System.out.printf("O texto cujo inicio da leitura é " + inicioLeitura + " não foi encontrado");
-            //return null; 
-        }
-    }
+    //  public void filtrarInicioLeitura(Date inicioLeitura){
+    //     int encontrou = 0;
+    //     for (Texto texto : listaTextos){
+    //         if (inicioLeitura.compareTo(texto.getInicioLeitura()) == 0){
+    //             System.out.println("Texto encontrado!%n");
+    //             System.out.printf("Nome: " + texto.getNomeTexto() + 
+	// 					"%nAutor: " + texto.getNomeAutor() + 
+	// 					"%nPublicação: " + texto.getDataPublicacao() + 
+	// 					"%nInicio da leitura: " + texto.getInicioLeitura() + 
+	// 					"%nTermino da leitura: " + texto.getTerminoLeitura() + 
+	// 					"%nNúmero de páginas: " + texto.getNumPaginas() + 
+	// 					"%nStatus: " +
+    //                     texto.getStatus());
+	// 					encontrou = 1;
+	// 			//return texto;
+    //         }
+    //     }
+    //     if (encontrou == 0){
+    //         System.out.printf("O texto cujo inicio da leitura é " + inicioLeitura + " não foi encontrado");
+    //         //return null; 
+    //     }
+    // }
     
-         public void filtrarTerminoLeitura(Date terminoLeitura){
-        int encontrou = 0;
-        for (Texto texto : listaTextos){
-            if (terminoLeitura.compareTo(texto.getTerminoLeitura()) == 0){
-                System.out.println("Texto encontrado!%n");
-                System.out.printf("Nome: " + texto.getNomeTexto() + 
-						"%nAutor: " + texto.getNomeAutor() + 
-						"%nPublicação: " + texto.getDataPublicacao() + 
-						"%nInicio da leitura: " + texto.getInicioLeitura() + 
-						"%nTermino da leitura: " + texto.getTerminoLeitura() + 
-						"%nNúmero de páginas: " + texto.getNumPaginas() + 
-						"%nStatus: " +
-                        texto.getStatus());
-						encontrou = 1;
-				
-				//return texto;
-            }
-        }
-        if (encontrou == 0){
-            System.out.printf("O texto cujo termino da leitura é " + terminoLeitura + " não foi encontrado");
-            //return null; 
-        }
-    }
+    //     public void filtrarTerminoLeitura(Date terminoLeitura){
+    //     int encontrou = 0;
+    //     for (Texto texto : listaTextos){
+    //         if (terminoLeitura.compareTo(texto.getTerminoLeitura()) == 0){
+    //             System.out.println("Texto encontrado!%n");
+    //             System.out.printf("Nome: " + texto.getNomeTexto() + 
+	// 					"%nAutor: " + texto.getNomeAutor() + 
+	// 					"%nPublicação: " + texto.getDataPublicacao() + 
+	// 					"%nInicio da leitura: " + texto.getInicioLeitura() + 
+	// 					"%nTermino da leitura: " + texto.getTerminoLeitura() + 
+	// 					"%nNúmero de páginas: " + texto.getNumPaginas() + 
+	// 					"%nStatus: " +
+    //                     texto.getStatus());
+	// 					encontrou = 1;
+	// 			//return texto;
+    //         }
+    //     }
+    //     if (encontrou == 0){
+    //         System.out.printf("O texto cujo termino da leitura é " + terminoLeitura + " não foi encontrado");
+    //         //return null; 
+    //     }
+    // }
     
     public void filtrar(int numPaginas){ // esse metodo vai ser sobrecarregado junto com o de filtrar por se foi lido ou nao 
         int encontrou = 0;
@@ -297,6 +295,7 @@ public class Estante {
             }
         }
     }
+
     // setters e getters
     public String getNome(){
         return this.nome;
